@@ -10,7 +10,7 @@ namespace SolarFarmAssessment
     public abstract class MenuItem
     {
         public string Description { get; set; }
-        public int Selector { get; set; }    //changed to int
-        public abstract bool Execute(ConsoleIO ui, ValidationID vID);       //hmmmm
+        public int Selector { get; set; }    
+        public abstract bool Execute(ConsoleIO ui, ValidationID vID);     
     }
 }

@@ -9,7 +9,7 @@ namespace SolarFarm.Core.Interfaces
 {
     public interface IPanelService
     {
-        Result<List<Panel>> FindPanelsBySection(string section);          // Retrieves all panels in a section from storage
+        Result<List<Panel>> FindPanelsBySection(string section);    // Retrieves all panels in a section from storage
         //row, col
         Result<Panel> Add(Panel panel);                             // Adds a panel to storage
         Result<Panel> Remove(string section, int row, int column);   // Removes panel for given section, row, col

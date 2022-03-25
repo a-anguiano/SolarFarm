@@ -129,7 +129,24 @@ namespace SolarFarmAssessment.MenuItems
                     running = false;
                 }
             }                
-            Service.Add(panel);
+            //Service.Add(panel);
+
+            Result<Panel> result = new Result<Panel>();
+            result = Service.Add(panel);  //HERE
+
+            if (result.Success)
+            {
+                ui.Display(result.Data.ToString());
+                ui.Display("idk");
+                //running = false;
+            }
+            else
+            {
+                ui.Display(result.Message);
+                ui.Display("Idk");
+                //ui.PromptToContinue();
+            }
+
             return true;        //hmmm, return to menu??
         }
     }

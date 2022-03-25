@@ -14,9 +14,33 @@ namespace SolarFarm.BLL
         {
             _repo = repo;
         }
-        public Result<List<Panel>> FindPanelsBySection(string section)
+        public Result<List<Panel>> FindPanelsBySection(string section)  //dude what
         {
-            throw new NotImplementedException();
+            List<Panel> panels = _repo.GetAll().Data;
+            //Panel bogus = new Panel();
+            Result<List<Panel>> result = new Result<List<Panel>>();
+            List<Panel> list = new List<Panel>();
+
+            foreach (Panel p in panels)
+            {
+                if (list.Count == 0)
+                {
+                    result.Success = false;
+                    result.Message = " No panels in section";
+                }
+
+                if (p.Section == section)
+                {
+                    Panel panel = new Panel();
+                    panel = p;
+                    list.Add(panel);
+                }
+            }
+            result.Data = list;
+            result.Success = true;
+            result.Message = "";
+            return result;
+            //throw new NotImplementedException();
         }
         public Result<Panel> Add(Panel panel)   //compare to weather
         {

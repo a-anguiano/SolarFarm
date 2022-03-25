@@ -29,8 +29,6 @@ namespace SolarFarm.DAL
             result.Success = true;
             result.Message = "";
             return result;
-            //todo: add record to private field
-            //throw new NotImplementedException();
         }
 
         public Result<Panel> Update(Panel panel)
@@ -38,7 +36,7 @@ namespace SolarFarm.DAL
             throw new NotImplementedException();
         }
 
-        public Result<List<Panel>> FindPanelsBySection(string section)        //this not sure quite yet
+        public Result<List<Panel>> GetAll()        //this not sure quite yet
         {
             Result<List<Panel>> result = new Result<List<Panel>>();
             result.Success = true;
