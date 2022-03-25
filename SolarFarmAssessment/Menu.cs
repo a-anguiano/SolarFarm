@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SolarFarm.BLL;
+using SolarFarm.Core.Interfaces;
 
 namespace SolarFarmAssessment
 {
     public class Menu       //consider renaming to MenuController
     {
         public string Name { get; set; }
+        public IPanelService Service { get; set; }      //hmmmm
         public List<MenuItem> MenuItems { get; }
         private ConsoleIO _ui;
         private ValidationID _vID;
@@ -40,9 +42,15 @@ namespace SolarFarmAssessment
                 {
                     if (mi.Selector == selection)
                     {
-                        running = mi.Execute(_ui, _vID);
+                        running = mi.Execute(_ui, _vID);        //switch from bool to Panel panel
+
+                        if (selection == 1)
+                        {
+                            Service.Add();
+                            //return bool
+                        }
                         //if mi.Execute == true
-                        //mi.Add()
+                        //mi.Add()      //return bool
                         break;
                     }
                 }

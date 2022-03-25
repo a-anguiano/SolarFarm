@@ -23,9 +23,10 @@ namespace SolarFarmAssessment.MenuItems
             string section, isTracking;
             int row, column;
             DateTime year;
+            Panel panel = new Panel();  //hmmm
 
-            while(running)
-            {
+            while (running)
+            {             
                 section = ui.GetString("Enter Section"); //may look nicer, be less copy&paste if put in validation
                 vID = new ValidationID();
                 if (!vID.CheckSectionIsNotNull(section))    //some overlap in responsibility
@@ -35,7 +36,8 @@ namespace SolarFarmAssessment.MenuItems
                 }
                 else
                 {
-                   running = false;
+                    panel.Section = section;
+                    running = false;
                 }
             }
 
@@ -50,6 +52,7 @@ namespace SolarFarmAssessment.MenuItems
                 }
                 else
                 {
+                    panel.Row = row;
                     running = true;
                 }
             }
@@ -65,22 +68,26 @@ namespace SolarFarmAssessment.MenuItems
                 }
                 else
                 {
+                    panel.Column = column;
                     running = true;
                 }
+
+                //validation
+                string material = ui.GetString("Enter material type");                //material
+                panel.Material = material;
+
+                string yearString = ui.GetString("Enter year installed");
+                year = DateTime.Parse(yearString);                                          //install year
+
+                panel.Year = year;
+                isTracking = ui.GetString("Does it track? Enter [y/n]");
+
+                panel.IsTracking = isTracking;
+
+
+                //PanelService.Add(panel);        //in or out of loop
             }
-
-            string material = ui.GetString("Enter material type");                //material
-            string yearString = ui.GetString("Enter year installed");
-            year = DateTime.Parse(yearString);                                          //install year
-            isTracking = ui.GetString("Does it track? Enter [y/n]");
-
-            Panel panel = new Panel();
-            panel.Section = section;
-
-            //panel.Add(section);
-            ////make list to represent panel with 
             PanelService.Add(panel);
-
             return true;        //hmmm, return to menu??
         }
     }
