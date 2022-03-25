@@ -19,39 +19,31 @@ namespace SolarFarmAssessment.MenuItems
         public IPanelService Service { get; set; }
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
-            bool running = true;
             string section;
-            ui.Display("section");  //eee
+            ui.Display("Find Panels by Section");  //eee
+            section = ui.GetString("Enter Section");
+            vID = new ValidationID();
+            Result<List<Panel>> result = new Result<List<Panel>>();
 
-            while (running)
+            while (!vID.CheckSectionIsNotNull(section))
             {
-                section = ui.GetString("Enter Section"); //may look nicer, be less copy&paste if put in validation
-                vID = new ValidationID();
-                if (!vID.CheckSectionIsNotNull(section))    //some overlap in responsibility
-                {
-                    ui.Warn("[Err] Must enter a name for section");
-                    running = true;
-                }
-                else
-                {
-                    Result<List<Panel>> result = Service.FindPanelsBySection(section);  //here too
-                    if (result.Success)
-                    {
-                        foreach (Panel panel in result.Data)
-                        {
-                            ui.Display(panel.ToString());
-                        }
-                    }
-                    else
-                    {
-                        ui.Display(result.Message);
-                    }
+               ui.Warn("[Err] Must enter a name for section");
+               section = ui.GetString("Enter Section"); //may look nicer, be less copy&paste if put in validation
+            }
 
-                    running = false;
-                }
-                                
-            }            
-            return true;
+            //result = Service.FindPanelsBySection(section);  //here too
+            //if (result.Success)
+            //{
+            //    foreach (Panel panel in result.Data)
+            //    {
+            //        ui.Display(panel.ToString());
+            //    }
+            //}
+            //else
+            //{
+            //    ui.Display(result.Message);
+            //}                                           
+            //return true;
         }
     }
 }

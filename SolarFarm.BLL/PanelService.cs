@@ -17,13 +17,12 @@ namespace SolarFarm.BLL
         public Result<List<Panel>> FindPanelsBySection(string section)  //dude what
         {
             List<Panel> panels = _repo.GetAll().Data;
-            //Panel bogus = new Panel();
             Result<List<Panel>> result = new Result<List<Panel>>();
             List<Panel> list = new List<Panel>();
 
             foreach (Panel p in panels)
             {
-                if (list.Count == 0)
+                if (list.Count == 0)    //mmmm
                 {
                     result.Success = false;
                     result.Message = " No panels in section";
