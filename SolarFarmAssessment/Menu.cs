@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SolarFarm.BLL;
 
 namespace SolarFarmAssessment
 {
-    public class Menu
+    public class Menu       //consider renaming to MenuController
     {
         public string Name { get; set; }
         public List<MenuItem> MenuItems { get; }
         private ConsoleIO _ui;
+        private ValidationID _vID;
         public Menu(ConsoleIO ui, string name)
         {
             MenuItems = new List<MenuItem>();
@@ -38,7 +40,7 @@ namespace SolarFarmAssessment
                 {
                     if (mi.Selector == selection)
                     {
-                        running = mi.Execute(_ui);
+                        running = mi.Execute(_ui, _vID);
                         break;
                     }
                 }

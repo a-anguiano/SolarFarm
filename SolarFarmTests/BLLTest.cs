@@ -16,6 +16,7 @@ namespace SolarFarmTests
         public void RowMustBeLessThanEqualTo250(int row)
         {
             Assert.LessOrEqual(row, 250);
+            Assert.Greater(row, 0);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SolarFarm.BLL;
 
 namespace SolarFarmAssessment.MenuItems
 {
@@ -13,7 +14,7 @@ namespace SolarFarmAssessment.MenuItems
             Selector = 1;
             Description = "Find Panels by Section";
         }
-        public override bool Execute(ConsoleIO ui)
+        public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
             ui.Display("section");  //eee
             return true;

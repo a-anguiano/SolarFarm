@@ -11,8 +11,8 @@ namespace SolarFarm.Core.DTO
         public string Section { get; set; }
         public int Row { get; set; }
         public int Column { get; set; }
-        public int Year { get; set; }   //int or DateTime
+        public DateTime Year { get; set; }   //DateTime
         // Material
-        public bool IsTracking { get; set; }
+        public string IsTracking { get; set; }      //string
     }
 }

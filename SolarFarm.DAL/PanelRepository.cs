@@ -8,9 +8,29 @@ namespace SolarFarm.DAL
     public class PanelRepository : IPanelRepository
     {
         private List<Panel> _panels;
+        public PanelRepository()                    //for testing purposes
+                                                    //made need list of list== sections, panels
+        {
+            _panels = new List<Panel>();
+            Panel bogus = new Panel();
+            bogus.Section = "Upper Hill";
+            bogus.Row = 2;
+            bogus.Column = 3;
+            bogus.Year = new DateTime(2020);
+            bogus.IsTracking = "y";
+            _panels.Add(bogus);
+        }
+
         public Result<Panel> Add(Panel panel)
         {
-            throw new NotImplementedException();
+            _panels.Add(panel);
+            Result<Panel> result = new Result<Panel>();
+            result.Data = panel;
+            result.Success = true;
+            result.Message = "";
+            return result;
+            //todo: add record to private field
+            //throw new NotImplementedException();
         }
 
         public Result<Panel> Update(Panel panel)
