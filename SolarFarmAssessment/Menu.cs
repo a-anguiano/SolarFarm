@@ -41,6 +41,8 @@ namespace SolarFarmAssessment
                     if (mi.Selector == selection)
                     {
                         running = mi.Execute(_ui, _vID);
+                        //if mi.Execute == true
+                        //mi.Add()
                         break;
                     }
                 }
