@@ -32,7 +32,7 @@ namespace SolarFarmAssessment
             while (running)
             {
                 DisplayMenu();
-                int selection = _ui.GetInt("Select [0-4]");   //change to int 0-4
+                int selection = _ui.GetInt("Select [0-4]");
 
                 foreach (MenuItem mi in MenuItems)
                 {
