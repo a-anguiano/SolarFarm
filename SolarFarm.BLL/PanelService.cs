@@ -18,20 +18,12 @@ namespace SolarFarm.BLL
         {
             throw new NotImplementedException();
         }
-        public Result<Panel> Add(Panel panel)
+        public Result<Panel> Add(Panel panel)   //compare to weather
         {
             Result<Panel> result = new Result<Panel>();
-            //StringBuilder sb = new StringBuilder();
             result.Data = panel;
             result.Success = true;
             _repo.Add(panel);
-
-            //result.Message = sb.ToString();
-
-            //if (result.Success)
-            //{
-            //    _repo.Add(panel);
-            //}
             return result;
         }
         public Result<Panel> Remove(string section, int row, int column)

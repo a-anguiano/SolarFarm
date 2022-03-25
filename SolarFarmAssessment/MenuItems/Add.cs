@@ -17,6 +17,7 @@ namespace SolarFarmAssessment.MenuItems
             Selector = 2;
             Description = "Add a Panel";
         }
+        public IPanelService Service { get; set; }      //hmmmm
         public override bool Execute(ConsoleIO ui, ValidationID vID)        //not sure to make interface or not
         {           
             bool running = true;
@@ -49,11 +50,12 @@ namespace SolarFarmAssessment.MenuItems
                 if (!vID.CheckRow(row))
                 {
                     ui.Warn("[Err] Row must be between 1 and 250");
+                    running = true;
                 }
                 else
                 {
                     panel.Row = row;
-                    running = true;
+                    running = false;
                 }
             }
 
@@ -65,29 +67,69 @@ namespace SolarFarmAssessment.MenuItems
                 if (!vID.CheckColumn(column))       //could refactor check row/column
                 {
                     ui.Warn("[Err] Column must be between 1 and 250");
+                    running = true;
                 }
                 else
                 {
                     panel.Column = column;
+                    running = false;
+                }
+            }
+
+            running = true;
+            while (running)
+            {
+                string material = ui.GetString("Enter material type");                //material
+                vID = new ValidationID();
+                if (!vID.CheckMaterial(material))
+                {
+                    ui.Warn("A single material of the five listed is required");    //list materials?
                     running = true;
                 }
-
-                //validation
-                string material = ui.GetString("Enter material type");                //material
-                panel.Material = material;
-
-                string yearString = ui.GetString("Enter year installed");
-                year = DateTime.Parse(yearString);                                          //install year
-
-                panel.Year = year;
-                isTracking = ui.GetString("Does it track? Enter [y/n]");
-
-                panel.IsTracking = isTracking;
-
-
-                //PanelService.Add(panel);        //in or out of loop
+                else
+                {
+                    panel.Material = material;
+                    running = false;
+                }
             }
-            PanelService.Add(panel);
+            //validation
+
+            running = true;
+            while (running)
+            {
+                string yearString = ui.GetString("Enter year installed");
+                year = DateTime.Parse(yearString);                           //need to tryparse        //install year
+                vID = new ValidationID();
+                if (!vID.CheckYear(year))
+                {
+                    ui.Warn("Year installed must be in the past");
+                    running = true;
+                }
+                else
+                {
+                    panel.Year = year;
+                    running = false;
+                }
+            }
+
+            running = true;
+            while (running)
+            {
+                isTracking = ui.GetString("Does it track? Enter [y/n]");
+                
+                vID = new ValidationID();
+                if (!vID.CheckIsTracking(isTracking))   //bool?
+                {
+                    ui.Warn("Must enter 'y' or 'n'");
+                    running = true;
+                }
+                else
+                {
+                    panel.IsTracking = isTracking;
+                    running = false;
+                }
+            }                
+            Service.Add(panel);
             return true;        //hmmm, return to menu??
         }
     }

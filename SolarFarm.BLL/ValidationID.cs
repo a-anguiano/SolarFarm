@@ -44,22 +44,50 @@ namespace SolarFarm.BLL
             }
         }
 
+        public bool CheckMaterial(string material)  //int or enum
+        {
+            //material is required and can be only one of the five
+            if (String.IsNullOrEmpty(material))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool CheckYear(DateTime year)
+        {
+            if (year < DateTime.Now)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         //year is in the past
-        //material is required and can be only one of the five
-        //isTracking is required
+
+        public bool CheckIsTracking(string isTracking)  //bool?
+        {
+            //material is required and can be only one of the five
+            if (String.IsNullOrEmpty(isTracking))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         //must not duplicate a panel
-
-        //if (result.Data.Year < DateTime.Now) //DateTime year
-        //{
-        //    result.Success = false;
-        //    sb.Append("Year installed must be in the past");
-        //}
-        //if (String.IsNullOrEmpty(result.Data.IsTracking))
-        //{
-        //    result.Success = false;
-        //    sb.Append("Must say if panel has sun-tracking hardware");
-        //}
-
-        ////Only one material
+        public bool CheckIfDuplicate()          //FIX THIS!!!!!!!
+        {
+            return true;
+        }
     }
 }
