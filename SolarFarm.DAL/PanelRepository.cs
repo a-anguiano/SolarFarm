@@ -11,14 +11,14 @@ namespace SolarFarm.DAL
         public PanelRepository()                    //for testing purposes
                                                     //made need list of list== sections, panels
         {
-            _panels = new List<Panel>();
-            Panel bogus = new Panel();
-            bogus.Section = "Upper Hill";
-            bogus.Row = 2;
-            bogus.Column = 3;
-            bogus.Year = new DateTime(2020);
-            bogus.IsTracking = "y";
-            _panels.Add(bogus);
+            //_panels = new List<Panel>();
+            //Panel bogus = new Panel();
+            //bogus.Section = "Upper Hill";
+            //bogus.Row = 2;
+            //bogus.Column = 3;
+            //bogus.Year = new DateTime(2020);
+            //bogus.IsTracking = "y";
+            //_panels.Add(bogus);
         }
 
         public Result<Panel> Add(Panel panel)

@@ -59,7 +59,7 @@ namespace SolarFarm.BLL
 
         public bool CheckYear(DateTime year)
         {
-            if (year < DateTime.Now)
+            if (year > DateTime.Now)
             {
                 return false;
             }

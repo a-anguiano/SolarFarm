@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SolarFarm.Core.DTO;
 using SolarFarm.Core.Interfaces;
+using SolarFarm.DAL;
 using System.Text;
 
 namespace SolarFarm.BLL
@@ -18,11 +19,11 @@ namespace SolarFarm.BLL
         {
             List<Panel> panels = _repo.GetAll().Data;
             Result<List<Panel>> result = new Result<List<Panel>>();
-            List<Panel> list = new List<Panel>();
+            List<Panel> listOfPanelsInSection = new List<Panel>();
 
             foreach (Panel p in panels)
             {
-                if (list.Count == 0)    //mmmm
+                if (listOfPanelsInSection.Count == 0)    //mmmm
                 {
                     result.Success = false;
                     result.Message = " No panels in section";
@@ -30,12 +31,11 @@ namespace SolarFarm.BLL
 
                 if (p.Section == section)
                 {
-                    Panel panel = new Panel();
-                    panel = p;
-                    list.Add(panel);
+                    Panel panel = p;
+                    listOfPanelsInSection.Add(panel);
                 }
             }
-            result.Data = list;
+            result.Data = listOfPanelsInSection;
             result.Success = true;
             result.Message = "";
             return result;

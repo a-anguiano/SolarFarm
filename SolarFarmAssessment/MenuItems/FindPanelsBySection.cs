@@ -22,7 +22,8 @@ namespace SolarFarmAssessment.MenuItems
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
             string section;
-            ui.Display("Find Panels by Section"); 
+            ui.Display("Find Panels by Section");
+            ui.Display("======================");
             section = ui.GetString("Enter Section");
             vID = new ValidationID();
            

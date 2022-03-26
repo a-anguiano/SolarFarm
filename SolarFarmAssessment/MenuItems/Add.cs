@@ -1,4 +1,5 @@
 ﻿using System;
+//using System.Gloabalization;  //?
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,6 +63,7 @@ namespace SolarFarmAssessment.MenuItems
 
             yearString = ui.GetString("Enter year installed");
             year = DateTime.Parse(yearString);
+            //DateTime.year.ToString("yyyy")
 
             while (!vID.CheckYear(year))
             {
