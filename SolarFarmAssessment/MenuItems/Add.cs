@@ -98,13 +98,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Display("Idk");
                 //ui.PromptToContinue();
             }
-
-            return true;        //hmmm, return to menu??
+            return true;
         }
-        //public string Execute(ConsoleIO ui, ValidationID vID)    //fix from bool to 
-        //{
-        //    return "";
-        //}
-
     }
 }
