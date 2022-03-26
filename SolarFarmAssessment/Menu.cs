@@ -12,7 +12,7 @@ namespace SolarFarmAssessment
     public class Menu       //consider renaming to MenuController
     {
         public string Name { get; set; }
-        public IPanelService Service { get; set; }      //hmmmm, unneccessary?
+        //public IPanelService Service { get; set; }      //hmmmm, unneccessary?
         public List<MenuItem> MenuItems { get; }
         private ConsoleIO _ui;
         private ValidationID _vID;      //consider this

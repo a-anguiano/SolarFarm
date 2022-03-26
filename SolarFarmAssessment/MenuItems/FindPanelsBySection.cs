@@ -12,7 +12,7 @@ namespace SolarFarmAssessment.MenuItems
     class FindPanelsBySection : MenuItem
     {
 
-        public IPanelService Service { get; set; } = null!;   //not sure
+        public IPanelService Service { get; set; } //= null!;   //not sure
         public FindPanelsBySection()
         {
             Selector = 1;
@@ -47,6 +47,7 @@ namespace SolarFarmAssessment.MenuItems
             //Result<List<Panel>> result = Service.FindPanelsBySection(section);  //here too
             if (result.Success)
             {
+                //or if it is csv, let's look into that
                 foreach (Panel panel in result.Data)
                 {
                     ui.Display(panel.ToString());

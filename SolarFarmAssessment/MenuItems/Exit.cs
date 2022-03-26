@@ -12,7 +12,7 @@ namespace SolarFarmAssessment.MenuItems
         public Exit()
         {
             Selector = 0;
-            Description = "Quit";
+            Description = "Exit";
         }
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {

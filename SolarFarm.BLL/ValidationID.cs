@@ -8,6 +8,11 @@ namespace SolarFarm.BLL
 {
     public class ValidationID
     {
+        //public bool CheckIfPanelExists()
+        //{
+
+        //}
+
         public bool CheckSectionIsNotNull(string section)
         {
             if(String.IsNullOrEmpty(section))
@@ -76,18 +81,22 @@ namespace SolarFarm.BLL
 
         public bool CheckIsTracking(string isTracking)  //bool? may have to have variable for tracker string
         {
-            
-            if (String.IsNullOrEmpty(isTracking))
+            if (!String.IsNullOrEmpty(isTracking))
             {
-                return false;
-            }
-            //else if (isTracking == "y" || isTracking == "n")
-            //{
-            //    return true;
-            //}
+                isTracking = isTracking.ToLower();
+
+                if (isTracking == "y" || isTracking == "n")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }            
             else
             {
-                return true;
+                return false;
             }
         }
 

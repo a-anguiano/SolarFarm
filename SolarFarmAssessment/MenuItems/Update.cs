@@ -19,8 +19,9 @@ namespace SolarFarmAssessment.MenuItems
         public IPanelService Service { get; set; }      //hmmmm
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
+            //Console.Clear();
             ui.Display("Update a Panel");
-            ui.Display("==============");
+            ui.Display("==============\n");
 
             string section, sectionNew, isTracking, isTrackingNew, 
                 material, materialNew, yearStringNew,
@@ -31,7 +32,7 @@ namespace SolarFarmAssessment.MenuItems
             Panel panel = new Panel();  //hmmm
             vID = new ValidationID();
 
-            section = ui.GetString("Enter Section");
+            section = ui.GetString("Enter Section Name");
             while (!vID.CheckSectionIsNotNull(section))
             {
                 ui.Warn("[Err] Must enter a name for section");
@@ -59,11 +60,12 @@ namespace SolarFarmAssessment.MenuItems
             //check if panel exists
             //return other properties if it does exist
 
-            ui.Display($"Editing {panel.Section}-{panel.Row}-{panel.Column}");
-            ui.Display("Press [Enter] to keep original value.");
+            ui.Display($"\nEditing {panel.Section}-{panel.Row}-{panel.Column}");
+            ui.Display("Press [Enter] to keep original value.\n");
 
 
             //watch for enter key
+            //a lot of this may need to go in PanelService
             sectionNew = ui.GetString($"Section ({panel.Section})");
             if (String.IsNullOrEmpty(sectionNew))
             {
@@ -137,6 +139,7 @@ namespace SolarFarmAssessment.MenuItems
             result = Service.Update(panel);  //HERE
 
             //success or error
+            ui.Display("\n");
             ui.Display(result.Message);
             return true;
         }

@@ -49,6 +49,18 @@ namespace SolarFarmTests
             Assert.That(result == expected);
         }
 
-        //CheckForMaterial
+        [Test]
+        [TestCase ("y", true)]
+        [TestCase("n", true)]
+        [TestCase("Y", true)]
+        [TestCase("N", true)]
+        [TestCase("", false)]
+        [TestCase("notYOrN", false)]
+        public void UserEntersTrackingYesOrNo(string response, bool expected)
+        {
+            bool result = vID.CheckIsTracking(response);
+            Assert.That(result == expected);
+        }
+    //material
     }
 }

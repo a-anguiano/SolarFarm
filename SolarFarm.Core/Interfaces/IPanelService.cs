@@ -13,5 +13,6 @@ namespace SolarFarm.Core.Interfaces
         Result<Panel> Add(Panel panel);                             // Adds a panel to storage
         Result<Panel> Remove(string section, int row, int column);   // Removes panel for given section, row, col
         Result<Panel> Update(Panel panel);                          // Replaces a panel with given location?
+        //may need to change parameter
     }
 }

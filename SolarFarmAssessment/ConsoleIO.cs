@@ -8,6 +8,11 @@ namespace SolarFarmAssessment
 {
     public class ConsoleIO
     {
+        public void PromptToContinue()
+        {
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
+        }
         public string GetString(string prompt)
         {
             string result = "";

@@ -23,13 +23,16 @@ namespace SolarFarmAssessment.MenuItems
         //public IPanelService Service { get; set; }      //hmmmm
         public override bool Execute(ConsoleIO ui, ValidationID vID)        //not sure to make interface or not
         {
+            //Console.Clear();
             string section, isTracking, yearString;
             int row, column;
             DateTime year;
             Panel panel = new Panel();  //hmmm
             vID = new ValidationID();
 
-            section = ui.GetString("Enter Section");        
+            ui.Display("Add a Panel");
+            ui.Display("===========\n");
+            section = ui.GetString("Enter Section Name");        
             while (!vID.CheckSectionIsNotNull(section))
             {
                 ui.Warn("[Err] Must enter a name for section");
@@ -93,15 +96,15 @@ namespace SolarFarmAssessment.MenuItems
 
             if (result.Success)
             {
+                ui.Display("\n");
                 ui.Display(result.Data.ToString());
-                ui.Display("idk");
+                ui.PromptToContinue();
                 //running = false;
             }
             else
             {
                 ui.Display(result.Message);
-                ui.Display("Idk");
-                //ui.PromptToContinue();
+                ui.PromptToContinue();
             }
             return true;
         }

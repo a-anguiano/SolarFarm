@@ -14,9 +14,11 @@ namespace SolarFarm.BLL
     public PanelService(IPanelRepository repo)
         {
             _repo = repo;
-        }
+        }        
+        //does this section exits?
+        //are there any panels to display if the section exists
         public Result<List<Panel>> FindPanelsBySection(string section)  //dude what
-        {
+        {            
             List<Panel> panels = _repo.GetAll().Data;
             Result<List<Panel>> result = new Result<List<Panel>>();
             List<Panel> listOfPanelsInSection = new List<Panel>();
@@ -41,7 +43,7 @@ namespace SolarFarm.BLL
             return result;
             //throw new NotImplementedException();
         }
-        public Result<Panel> Add(Panel panel)   //compare to weather
+        public Result<Panel> Add(Panel panel)
         {
             Result<Panel> result = new Result<Panel>();
             result.Data = panel;
@@ -49,6 +51,8 @@ namespace SolarFarm.BLL
             _repo.Add(panel);
             return result;
         }
+        //hmmmm, need to find specific panel to remove
+        //check if that panel exists
         public Result<Panel> Remove(string section, int row, int column)
         {
             Result<Panel> result = _repo.Remove(section, row, column);
@@ -57,6 +61,8 @@ namespace SolarFarm.BLL
         }
         public Result<Panel> Update(Panel panel)
         {
+            //check for enter key, or null
+            //check if this panel even exists
             List<Panel> panels = _repo.GetAll().Data;
             Result<Panel> result = new Result<Panel>();
             for (int i = 0; i < panels.Count; i++)
