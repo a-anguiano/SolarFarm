@@ -34,7 +34,7 @@ namespace SolarFarmAssessment
             _ui.Display("=====================\n");
 
             bool running = true;
-            string section = "Upper Hill";  //testing
+           // string section = "Upper Hill";  //testing
 
             while (running)
             {
@@ -44,8 +44,8 @@ namespace SolarFarmAssessment
                 {
                     if (mi.Selector == selection)
                     {
-                        Service.FindPanelsBySection(section);
-                        //running = mi.Execute(_ui, _vID);  //testing
+                        //Service.FindPanelsBySection(section);
+                        running = mi.Execute(_ui, _vID);  //testing
                         break;
                     }
                 }
@@ -61,8 +61,6 @@ namespace SolarFarmAssessment
             {
                 _ui.Display($"{mi.Selector} - {mi.Description}");
             }
-
-            //_ui.Display("");
         }
     }
 }

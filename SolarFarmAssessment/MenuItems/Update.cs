@@ -11,7 +11,7 @@ namespace SolarFarmAssessment.MenuItems
 {
     class Update : MenuItem
     {
-        public Update() //fix
+        public Update()
         {
             Selector = 3;
             Description = "Update a Panel";
@@ -37,7 +37,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            panel.Section = section;
+            panel.Section = section;            //needed or nah
 
             row = ui.GetInt("Enter Row");
             while (!vID.CheckRow(row))
@@ -67,14 +67,14 @@ namespace SolarFarmAssessment.MenuItems
             sectionNew = ui.GetString($"Section ({panel.Section})");
             if (String.IsNullOrEmpty(sectionNew))
             {
-                panel.Section = section;
+                panel.Section = section;        //continue?
             }
             else
             {
                 panel.Section = sectionNew;
             }
 
-            rowStringNew = ui.GetString($"Section ({panel.Row})");       //read as string perhaps
+            rowStringNew = ui.GetString($"Row ({panel.Row})");       //read as string perhaps
             if (String.IsNullOrEmpty(rowStringNew))
             {
                 panel.Row = row;
@@ -85,7 +85,7 @@ namespace SolarFarmAssessment.MenuItems
                 panel.Row = rowNew;
             }
 
-            columnStringNew = ui.GetString($"Section ({panel.Column})");
+            columnStringNew = ui.GetString($"Column ({panel.Column})");
             if (String.IsNullOrEmpty(columnStringNew))
             {
                 panel.Column = column;
@@ -111,18 +111,19 @@ namespace SolarFarmAssessment.MenuItems
                 panel.Material = materialNew;
             }
 
-            yearStringNew = ui.GetString($"Section ({panel.Year})");
+            yearStringNew = ui.GetString($"Installation Year ({panel.Year})");
             if (String.IsNullOrEmpty(yearStringNew))
             {
                 panel.Year = year;
             }
             else
             {
-                yearNew = DateTime.Parse(yearStringNew);              //tryparse
+                string month = "1/1/";
+                yearNew = DateTime.Parse(month + yearStringNew);              //tryparse
                 panel.Year = yearNew;
             }
             
-            isTrackingNew = ui.GetString($"Section ({panel.IsTracking}) [y/n]");
+            isTrackingNew = ui.GetString($"Tracked ({panel.IsTracking}) [y/n]");
             if (String.IsNullOrEmpty(isTrackingNew))
             {
                 panel.IsTracking = isTracking;

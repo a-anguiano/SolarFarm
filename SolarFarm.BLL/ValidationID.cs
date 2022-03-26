@@ -22,7 +22,7 @@ namespace SolarFarm.BLL
 
         public bool CheckRow(int row)
         {
-            if(row > 250 || row < 0)
+            if(row > 250 || row < 1)
             {
                 return false;
             }
@@ -34,7 +34,7 @@ namespace SolarFarm.BLL
 
         public bool CheckColumn(int column)
         {
-            if(column > 250 || column < 0)
+            if(column > 250 || column < 1)
             {
                 return false;
             }
@@ -47,13 +47,18 @@ namespace SolarFarm.BLL
         public bool CheckMaterial(string material)  //int or enum
         {
             //material is required and can be only one of the five
-            if (String.IsNullOrEmpty(material))
-            {
-                return false;
-            }
-            else
+            //if (String.IsNullOrEmpty(material))
+            //{
+            //    return false;
+            //}
+            if (material == "MuSi" || material == "MoSi" || material == "AmSi" || material == "CdTe" || material == "CIGS")
             {
                 return true;
+            }
+
+            else
+            {
+                return false;
             }
         }
 
@@ -69,15 +74,17 @@ namespace SolarFarm.BLL
             }
         }
 
-        //year is in the past
-
-        public bool CheckIsTracking(string isTracking)  //bool?
+        public bool CheckIsTracking(string isTracking)  //bool? may have to have variable for tracker string
         {
-            //material is required and can be only one of the five
+            
             if (String.IsNullOrEmpty(isTracking))
             {
                 return false;
             }
+            //else if (isTracking == "y" || isTracking == "n")
+            //{
+            //    return true;
+            //}
             else
             {
                 return true;

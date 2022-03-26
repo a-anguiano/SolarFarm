@@ -36,13 +36,13 @@ namespace SolarFarmTests
             _panels.Add(bogus2);
         }
 
-        [Test]
-        public void Um(Result<List<Panel>> expected)
-        {
-            Result<List<Panel>> actual = repo.GetAll();
-            //result.Data = new List<Panel>(_panels);
+        //[Test]
+        //public void Um(Result<List<Panel>> expected)
+        //{
+        //    Result<List<Panel>> actual = repo.GetAll();
+        //    //result.Data = new List<Panel>(_panels);
 
-            Assert.AreEqual(expected, actual);
-        }
+        //    Assert.AreEqual(expected, actual);
+        //}
     }
 }

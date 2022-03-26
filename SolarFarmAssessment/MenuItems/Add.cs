@@ -12,15 +12,17 @@ namespace SolarFarmAssessment.MenuItems
 {
     
     class Add : MenuItem
-    {        
+    {
+        public IPanelService Service { get; set; }      //hmmmm
         public Add()    
         {
             Selector = 2;
             Description = "Add a Panel";
         }
-        public IPanelService Service { get; set; }      //hmmmm
+
+        //public IPanelService Service { get; set; }      //hmmmm
         public override bool Execute(ConsoleIO ui, ValidationID vID)        //not sure to make interface or not
-        {           
+        {
             string section, isTracking, yearString;
             int row, column;
             DateTime year;
@@ -62,14 +64,15 @@ namespace SolarFarmAssessment.MenuItems
             //validation
 
             yearString = ui.GetString("Enter year installed");
-            year = DateTime.Parse(yearString);
+            string month = "1/1/";
+            year = DateTime.Parse(month + yearString);
             //DateTime.year.ToString("yyyy")
 
             while (!vID.CheckYear(year))
             {
                 ui.Warn("Year installed must be in the past");
                 yearString = ui.GetString("Enter year installed");
-                year = DateTime.Parse(yearString);
+                year = DateTime.Parse(month + yearString);
                 //need to tryparse        //install year
             }
             panel.Year = year;
@@ -84,6 +87,8 @@ namespace SolarFarmAssessment.MenuItems
             //Service.Add(panel);
 
             Result<Panel> result = new Result<Panel>();
+
+            //ui.Display(Service);
             result = Service.Add(panel);  //HERE
 
             if (result.Success)

@@ -11,7 +11,7 @@ namespace SolarFarm.BLL
     {
         private IPanelRepository _repo;
 
-        public PanelService(IPanelRepository repo)
+    public PanelService(IPanelRepository repo)
         {
             _repo = repo;
         }
@@ -51,11 +51,31 @@ namespace SolarFarm.BLL
         }
         public Result<Panel> Remove(string section, int row, int column)
         {
-            throw new NotImplementedException();
+            Result<Panel> result = _repo.Remove(section, row, column);
+            return result;
+            //throw new NotImplementedException();
         }
         public Result<Panel> Update(Panel panel)
         {
-            throw new NotImplementedException();
+            List<Panel> panels = _repo.GetAll().Data;
+            Result<Panel> result = new Result<Panel>();
+            for (int i = 0; i < panels.Count; i++)
+            {
+                if (panels[i].Section == panel.Section && panels[i].Row == panel.Row && panels[i].Column == panel.Column)
+                {                    
+                    panel.Material = panels[i].Material;
+                    panel.Year = panels[i].Year;
+                    panel.IsTracking = panels[i].IsTracking;
+                    //check all this
+
+                    result.Data = panel;
+                    break;
+                }
+            }
+            result = _repo.Update(panel);
+            return result;
+
+            //throw new NotImplementedException();
         }
     }
 }

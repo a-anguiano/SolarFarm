@@ -12,13 +12,13 @@ namespace SolarFarm.DAL
                                                     //made need list of list== sections, panels
         {
             //_panels = new List<Panel>();
-            //Panel bogus = new Panel();
-            //bogus.Section = "Upper Hill";
-            //bogus.Row = 2;
-            //bogus.Column = 3;
-            //bogus.Year = new DateTime(2020);
-            //bogus.IsTracking = "y";
-            //_panels.Add(bogus);
+            //Panel panel bogus = new panel();
+            //bogus.section = "upper hill";
+            //bogus.row = 2;
+            //bogus.column = 3;
+            //bogus.year = new datetime(2020);
+            //bogus.istracking = "y";
+            //_panels.add(bogus);
         }
 
         public Result<Panel> Add(Panel panel)
@@ -31,9 +31,19 @@ namespace SolarFarm.DAL
             return result;
         }
 
-        public Result<Panel> Update(Panel panel)
+        public Result<Panel> Update(Panel panel)    //change to section, row, col
         {
-            throw new NotImplementedException();
+            Result<Panel> result = new Result<Panel>();
+            result.Data = panel;
+            for (int i = 0; i < _panels.Count; i++)
+            {
+                if (_panels[i].Section == panel.Section)    //hmm
+                {
+                    _panels[i] = panel;
+                }
+            }
+            return result;
+            //throw new NotImplementedException();
         }
 
         public Result<List<Panel>> GetAll()        //this not sure quite yet
@@ -46,7 +56,19 @@ namespace SolarFarm.DAL
         }
         public Result<Panel> Remove(string section, int row, int column)
         {
-            throw new NotImplementedException();
+            Result<Panel> result = new Result<Panel>();
+            for (int i = 0; i < _panels.Count; i++)
+            {
+                if (_panels[i].Section == section && _panels[i].Row == row && _panels[i].Column == column)  //hmmm
+                {
+                    result.Data = _panels[i];
+                    result.Success = true;
+                    result.Message = "";
+                    _panels.Remove(_panels[i]);
+                }
+            }
+            return result;
+            //throw new NotImplementedException();
         }
 
     }
