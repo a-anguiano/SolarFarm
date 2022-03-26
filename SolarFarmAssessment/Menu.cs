@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SolarFarm.BLL;
 using SolarFarm.Core.Interfaces;
+using SolarFarm.Core.DTO;
 
 namespace SolarFarmAssessment
 {
@@ -33,11 +34,12 @@ namespace SolarFarmAssessment
             _ui.Display("=====================\n");
 
             bool running = true;
+            //string section;
+
             while (running)
             {
                 DisplayMenu();
                 int selection = _ui.GetInt("Select [0-4]");
-
                 foreach (MenuItem mi in MenuItems)
                 {
                     if (mi.Selector == selection)
@@ -48,7 +50,7 @@ namespace SolarFarmAssessment
                 }
             }
         }
-
+                 
         public void DisplayMenu()
         {
             _ui.Display(Name);
@@ -59,7 +61,7 @@ namespace SolarFarmAssessment
                 _ui.Display($"{mi.Selector} - {mi.Description}");
             }
 
-            _ui.Display("");
+            //_ui.Display("");
         }
     }
 }

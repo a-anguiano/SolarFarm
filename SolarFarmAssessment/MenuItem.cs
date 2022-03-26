@@ -11,6 +11,8 @@ namespace SolarFarmAssessment
     {
         public string Description { get; set; }
         public int Selector { get; set; }    
-        public abstract bool Execute(ConsoleIO ui, ValidationID vID);     
+        public abstract bool Execute(ConsoleIO ui, ValidationID vID);
+
+        //public abstract bool Execute2(ConsoleIO ui, ValidationID vID);
     }
 }
