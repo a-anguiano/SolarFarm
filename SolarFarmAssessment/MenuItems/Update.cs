@@ -106,11 +106,13 @@ namespace SolarFarmAssessment.MenuItems
             materialNew = ui.GetString($"Material ({panel.Material})");
             if (String.IsNullOrEmpty(materialNew))
             {
-                panel.Material = material;
+                int materialInt = int.Parse(material); 
+                panel.Material = materialInt;
             }
             else
             {
-                panel.Material = materialNew;
+                int materialIntNew = int.Parse(materialNew);
+                panel.Material = materialIntNew;
             }
 
             yearStringNew = ui.GetString($"Installation Year ({panel.Year})");

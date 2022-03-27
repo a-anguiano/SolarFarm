@@ -14,6 +14,7 @@ namespace SolarFarmAssessment.MenuItems
     class Add : MenuItem
     {
         public IPanelService Service { get; set; }      //hmmmm
+        
         public Add()    
         {
             Selector = 2;
@@ -56,11 +57,14 @@ namespace SolarFarmAssessment.MenuItems
             }
             panel.Column = column;
 
-            string material = ui.GetString("Enter material type");
+            ui.Display("Enter material type:");
+            int material = ui.GetInt("0 = MuSi, 1 = MoSi, 2 = AmSi, 3 = CdTe, 4 = CIGS"); //make another enum so not as long?
+            
+            
             while (!vID.CheckMaterial(material))
             {
                 ui.Warn("A single material of the five listed is required");
-                material = ui.GetString("Enter material type");                //material
+                material = ui.GetInt("Enter material type");                //material
                       //list materials?                    
             }
             panel.Material = material;

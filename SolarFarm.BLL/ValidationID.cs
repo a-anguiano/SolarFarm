@@ -8,6 +8,14 @@ namespace SolarFarm.BLL
 {
     public class ValidationID
     {
+        public enum MaterialTypes
+        {
+            MuSi,       //multicrystalline_silicon,       //0
+            MoSi,       //monocrystalline_silicon, 
+            AmSi,       //amorphous_silicon, 
+            CdTe,       //cadmium_telluride,      
+            CIGS        //copper_indium_gallium_selenide      //format
+        }
         //public bool CheckIfPanelExists()
         //{
 
@@ -49,14 +57,25 @@ namespace SolarFarm.BLL
             }
         }
 
-        public bool CheckMaterial(string material)  //int or enum
-        {
-            //material is required and can be only one of the five
-            //if (String.IsNullOrEmpty(material))
-            //{
-            //    return false;
-            //}
-            if (material == "MuSi" || material == "MoSi" || material == "AmSi" || material == "CdTe" || material == "CIGS")
+        public bool CheckMaterial(int material)  //int or enum
+        {           
+            if (material == (int)MaterialTypes.MuSi)
+            {
+                return true;
+            }
+            if (material == (int)MaterialTypes.MoSi)
+            {
+                return true;
+            }
+            if (material == (int)MaterialTypes.AmSi)
+            {
+                return true;
+            }
+            if (material == (int)MaterialTypes.CdTe)
+            {
+                return true;
+            }
+            if (material == (int)MaterialTypes.CIGS)
             {
                 return true;
             }

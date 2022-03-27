@@ -14,7 +14,9 @@ namespace SolarFarm.BLL
     public PanelService(IPanelRepository repo)
         {
             _repo = repo;
-        }        
+        }
+
+        
         //does this section exits?
         //are there any panels to display if the section exists
         public Result<List<Panel>> FindPanelsBySection(string section)  //dude what
@@ -78,6 +80,7 @@ namespace SolarFarm.BLL
                     break;
                 }
             }
+            
             result = _repo.Update(panel);
             return result;
 

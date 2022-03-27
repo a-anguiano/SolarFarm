@@ -11,6 +11,9 @@ namespace SolarFarm.DAL
         public PanelRepository()                    //for testing purposes
                                                     //made need list of list== sections, panels
         {
+            //string path = Directory.GetCurrentDirectory() + @"\Data\SolarPanels.csv";
+            //CreateDirectory(path)
+
             //_panels = new List<Panel>();
             //Panel panel bogus = new panel();
             //bogus.section = "upper hill";

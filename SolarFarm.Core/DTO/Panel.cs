@@ -12,7 +12,7 @@ namespace SolarFarm.Core.DTO
         public int Row { get; set; }
         public int Column { get; set; }
         public DateTime Year { get; set; } 
-        public string Material { get; set; }        //enum to string
+        public int Material { get; set; }        
         public string IsTracking { get; set; }      //string, or um bool?, display as string
     }
 }
