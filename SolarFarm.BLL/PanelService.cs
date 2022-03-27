@@ -11,16 +11,42 @@ namespace SolarFarm.BLL
     {
         private IPanelRepository _repo;
 
-    public PanelService(IPanelRepository repo)
+        public PanelService(IPanelRepository repo)
         {
             _repo = repo;
         }
 
         //does this section exits?
         //are there any panels to display if the section exists
+        public bool CheckForSectionExistence(string section)  //hmmm
+        {
+            List<Panel> panels = _repo.GetAll().Data;           //AND HERE
+            foreach (Panel p in panels)
+            {
+                if (p.Section == section)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool CheckForPanelExistence(string section, int row, int column)
+        {
+            List<Panel> panels = _repo.GetAll().Data;
+            foreach (Panel p in panels)
+            {
+                if (p.Section == section && p.Row == row && p.Column == column) //could let them know sooner but oh well
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public Result<List<Panel>> FindPanelsBySection(string section)  //dude what
         {   
-            List<Panel> panels = _repo.GetAll().Data;
+            List<Panel> panels = _repo.GetAll().Data;               //HERE hmmm, return is not as simple
             Result<List<Panel>> result = new Result<List<Panel>>();
             List<Panel> listOfPanelsInSection = new List<Panel>();
 

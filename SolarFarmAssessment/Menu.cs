@@ -16,6 +16,7 @@ namespace SolarFarmAssessment
         public List<MenuItem> MenuItems { get; }
         private ConsoleIO _ui;
         private ValidationID _vID;      //consider this
+        private PanelService _service;
         public Menu(ConsoleIO ui, string name)
         {
             MenuItems = new List<MenuItem>();
@@ -45,7 +46,7 @@ namespace SolarFarmAssessment
                     if (mi.Selector == selection)
                     {
                         //Service.FindPanelsBySection(section);
-                        running = mi.Execute(_ui, _vID);  //testing
+                        running = mi.Execute(_ui, _vID, _service);  //testing
                         break;
                     }
                 }

@@ -11,11 +11,19 @@ using SolarFarm.Core.DTO;
 namespace SolarFarmAssessment.MenuItems
 {
     
-    class Add : MenuItem
+    public class Add : MenuItem
     {
-        public IPanelService Service { get; set; }      //hmmmm
-        //maybe move quite a bit of this into BLL
+        //public IPanelService Service { get; set; }      //hmmmm
         
+        //private IPanelService _service;
+
+        //public GuessTracker(INumberGenerator implementation)
+        //{
+        //    _generator = implementation;
+        //}
+
+        //maybe move quite a bit of this into BLL
+
         public Add()    
         {
             Selector = 2;
@@ -23,9 +31,9 @@ namespace SolarFarmAssessment.MenuItems
         }
 
         //public IPanelService Service { get; set; }      //hmmmm
-        public override bool Execute(ConsoleIO ui, ValidationID vID)        
+        public override bool Execute(ConsoleIO ui, ValidationID vID, PanelService service)        //consider injection   
         {
-            //Console.Clear();
+            Console.Clear();
             string section, isTracking, yearString;
             int row, column;
             DateTime year;
@@ -40,7 +48,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            while (!vID.CheckForSectionExistence(section))
+            while (!service.CheckForSectionExistence(section))  //still happening
             {
                 ui.Warn("[Err] This section does not exist");
                 section = ui.GetString("Enter Section");
@@ -63,7 +71,7 @@ namespace SolarFarmAssessment.MenuItems
                 column = ui.GetInt("Enter Column");                    
             }
 
-            if (vID.CheckForPanelExistence(section, row, column))   //it exists already
+            if (service.CheckForPanelExistence(section, row, column))   //it exists already
             {
                 ui.Warn("[Err] This panel exists!\nCannot duplicate.");
                 ui.PromptToContinue();
@@ -107,7 +115,7 @@ namespace SolarFarmAssessment.MenuItems
             Result<Panel> result = new Result<Panel>();
 
             //ui.Display(Service);
-            result = Service.Add(panel);  //HERE
+            result = service.Add(panel);  //HERE
 
             if (result.Success)
             {

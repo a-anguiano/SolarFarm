@@ -11,22 +11,32 @@ namespace SolarFarmAssessment.MenuItems
 {
     class FindPanelsBySection : MenuItem
     {
+        
 
-        public IPanelService Service { get; set; } //= null!;   //not sure
+        //public IPanelService Service { get; set; } //= null!;   //not sure
         public FindPanelsBySection()
         {
             Selector = 1;
             Description = "Find Panels by Section";
         }
-       
+
+        private IPanelRepository _repo;
+
+        //public PanelService()
+        //{
+            
+        //}
+
         Result<List<Panel>> result = new Result<List<Panel>>(); //hmmm
-        public override bool Execute(ConsoleIO ui, ValidationID vID)
+        public override bool Execute(ConsoleIO ui, ValidationID vID, PanelService service)
         {
             string section;
             ui.Display("Find Panels by Section");
             ui.Display("======================");
             section = ui.GetString("Enter Section");
             vID = new ValidationID();
+            service = new PanelService(_repo);  //hmmmmm
+
 
             while (!vID.CheckSectionIsNotNull(section))
             {
@@ -36,11 +46,11 @@ namespace SolarFarmAssessment.MenuItems
 
             section = "Upper Hill";     //testing
             //var Service = new IPanelService()
-            if (Service != null)
+            if (service != null)
             {
-                result = Service.FindPanelsBySection(section);  //here too
+                result = service.FindPanelsBySection(section);  //here too
             }
-            if (Service == null)
+            if (service == null)
             {
                 ui.Display("null");
             }

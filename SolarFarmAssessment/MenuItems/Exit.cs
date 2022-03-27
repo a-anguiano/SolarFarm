@@ -14,7 +14,7 @@ namespace SolarFarmAssessment.MenuItems
             Selector = 0;
             Description = "Exit";
         }
-        public override bool Execute(ConsoleIO ui, ValidationID vID)
+        public override bool Execute(ConsoleIO ui, ValidationID vID, PanelService service)
         {
             ui.Display("Goodbye!");
             return false;

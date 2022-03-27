@@ -16,8 +16,8 @@ namespace SolarFarmAssessment.MenuItems
             Selector = 4;
             Description = "Remove a Panel";
         }
-        public IPanelService Service { get; set; }      //hmmmm
-        public override bool Execute(ConsoleIO ui, ValidationID vID)
+        //public IPanelService Service { get; set; }      //hmmmm
+        public override bool Execute(ConsoleIO ui, ValidationID vID, PanelService service)
         {
             ui.Display("Remove a Panel");
             ui.Display("==============");
@@ -34,7 +34,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            while (!vID.CheckForSectionExistence(section))
+            while (!service.CheckForSectionExistence(section))
             {
                 ui.Warn("[Err] This section does not exist");
                 section = ui.GetString("Enter Section");
@@ -55,7 +55,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Column must be between 1 and 250");
                 column = ui.GetInt("Enter Column");
             }
-            if (!vID.CheckForPanelExistence(section, row, column))  //it does not exist
+            if (!service.CheckForPanelExistence(section, row, column))  //it does not exist
             {
                 ui.Warn("[Err] This panel does not exist!\nCannot remove.");
                 ui.PromptToContinue();
@@ -65,7 +65,7 @@ namespace SolarFarmAssessment.MenuItems
             panel.Column = column;
 
             //Result<Panel> result =
-            Service.Remove(section, row, column);
+            service.Remove(section, row, column);
             //result.message?
             //
             ui.PromptToContinue();
