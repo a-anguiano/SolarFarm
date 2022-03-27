@@ -19,7 +19,7 @@ namespace SolarFarmAssessment.MenuItems
         public IPanelService Service { get; set; }      //hmmmm
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
-            //Console.Clear();
+            Console.Clear();
             ui.Display("Update a Panel");
             ui.Display("==============\n");
 
@@ -38,6 +38,11 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
+            while (!vID.CheckForSectionExistence(section))
+            {
+                ui.Warn("[Err] This section does not exist");
+                section = ui.GetString("Enter Section");
+            }
             panel.Section = section;            //needed or nah
 
             row = ui.GetInt("Enter Row");
@@ -54,10 +59,15 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Column must be between 1 and 250");
                 column = ui.GetInt("Enter Column");
             }
+            if (vID.CheckForPanelExistence(section, row, column))   //it exists already
+            {
+                ui.Warn("[Err] This panel exists!\nCannot duplicate.");
+                ui.PromptToContinue();
+                return true;    //go to main menu
+            }
             panel.Column = column;
 
             //get the Panel specified by section, row, col
-            //check if panel exists
             //return other properties if it does exist
 
             ui.Display($"\nEditing {panel.Section}-{panel.Row}-{panel.Column}");

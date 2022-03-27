@@ -22,7 +22,7 @@ namespace SolarFarmAssessment.MenuItems
         }
 
         //public IPanelService Service { get; set; }      //hmmmm
-        public override bool Execute(ConsoleIO ui, ValidationID vID)        //not sure to make interface or not
+        public override bool Execute(ConsoleIO ui, ValidationID vID)        
         {
             //Console.Clear();
             string section, isTracking, yearString;
@@ -39,6 +39,11 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
+            while (!vID.CheckForSectionExistence(section))
+            {
+                ui.Warn("[Err] This section does not exist");
+                section = ui.GetString("Enter Section");
+            }
             panel.Section = section;
 
             row = ui.GetInt("Enter Row");
@@ -47,6 +52,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Row must be between 1 and 250");
                 row = ui.GetInt("Enter Row");                    
             }
+           
             panel.Row = row;
 
             column = ui.GetInt("Enter Column");
@@ -54,6 +60,13 @@ namespace SolarFarmAssessment.MenuItems
             {
                 ui.Warn("[Err] Column must be between 1 and 250");
                 column = ui.GetInt("Enter Column");                    
+            }
+
+            if (vID.CheckForPanelExistence(section, row, column))   //it exists already
+            {
+                ui.Warn("[Err] This panel exists!\nCannot duplicate.");
+                ui.PromptToContinue();
+                return true;    //go to main menu
             }
             panel.Column = column;
 
@@ -64,16 +77,13 @@ namespace SolarFarmAssessment.MenuItems
             while (!vID.CheckMaterial(material))
             {
                 ui.Warn("A single material of the five listed is required");
-                material = ui.GetInt("Enter material type");                //material
-                      //list materials?                    
+                material = ui.GetInt("Enter material type");                                   
             }
             panel.Material = material;
-            //validation
 
             yearString = ui.GetString("Enter year installed");
             string month = "1/1/";
             year = DateTime.Parse(month + yearString);
-            //DateTime.year.ToString("yyyy")
 
             while (!vID.CheckYear(year))
             {

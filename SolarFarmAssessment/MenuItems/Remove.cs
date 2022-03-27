@@ -34,6 +34,11 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
+            while (!vID.CheckForSectionExistence(section))
+            {
+                ui.Warn("[Err] This section does not exist");
+                section = ui.GetString("Enter Section");
+            }
             panel.Section = section;    //uneccessary?
 
             row = ui.GetInt("Enter Row");
@@ -50,27 +55,20 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Column must be between 1 and 250");
                 column = ui.GetInt("Enter Column");
             }
+            if (!vID.CheckForPanelExistence(section, row, column))  //it does not exist
+            {
+                ui.Warn("[Err] This panel does not exist!\nCannot remove.");
+                ui.PromptToContinue();
+                return true;    //go to main menu
+            }
+
             panel.Column = column;
 
-            //get the Panel specified by section, row, col
-            //check if panel exists
-            //return other properties if it does exist
-
-            Result<List<Panel>> result = Service.FindPanelsBySection(section);
-            List<Panel> listOfPanelsInSection = result.Data;
-            foreach (Panel p in listOfPanelsInSection)
-            {
-                if (p.Row == row && p.Column == column)
-                {
-                    //Panel specificPanal = p;
-                    //panel exists
-                    Service.Remove(section, row, column);   //specificPanel?
-                }
-                else
-                {
-                    ui.Display("The panel does not exist.");
-                }
-            }                
+            //Result<Panel> result =
+            Service.Remove(section, row, column);
+            //result.message?
+            //
+            ui.PromptToContinue();
             return true;
         }
     }

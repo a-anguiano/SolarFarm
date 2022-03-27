@@ -5,7 +5,7 @@ using System;
 namespace SolarFarmTests
 {
     [TestFixture]
-    public class ValidationTests    //renamed
+    public class ValidationTests    
     {
         ValidationID vID;
         
@@ -15,6 +15,8 @@ namespace SolarFarmTests
             vID = new ValidationID();
             
         }
+
+        //existence testing here???
 
         [Test]
         [TestCase ("", false)]
@@ -27,9 +29,9 @@ namespace SolarFarmTests
 
         [Test]
         [TestCase (250, true)]
-        [TestCase(251, false)]
-        [TestCase(1, true)]
-        [TestCase(0, false)]
+        [TestCase (251, false)]
+        [TestCase (1, true)]
+        [TestCase (0, false)]
 
         public void RowMustBeLessThanEqualTo250(int row, bool expected)
         {
@@ -40,7 +42,7 @@ namespace SolarFarmTests
         //CheckColumn is the same, so either will refactor or...
 
         [Test]
-        [TestCase ("1/1/2021", true)]               //smart enough to convert from string to DateTime
+        [TestCase ("1/1/2021", true)]               
         [TestCase ("1/1/2023", false)]            
         //could see up to the month?
         public void YearMustBeInThePast(DateTime year, bool expected)
@@ -51,16 +53,29 @@ namespace SolarFarmTests
 
         [Test]
         [TestCase ("y", true)]
-        [TestCase("n", true)]
-        [TestCase("Y", true)]
-        [TestCase("N", true)]
-        [TestCase("", false)]
-        [TestCase("notYOrN", false)]
+        [TestCase ("n", true)]
+        [TestCase ("Y", true)]
+        [TestCase ("N", true)]
+        [TestCase ("", false)]
+        [TestCase ("notYOrN", false)]
         public void UserEntersTrackingYesOrNo(string response, bool expected)
         {
             bool result = vID.CheckIsTracking(response);
             Assert.That(result == expected);
         }
-    //material
+        
+        [Test]
+        [TestCase (0, true)]
+        [TestCase(1, true)]
+        [TestCase(2, true)]
+        [TestCase(3, true)]
+        [TestCase(4, true)]
+        [TestCase(5, false)]
+        [TestCase(-1, false)]
+        public void CheckForValidMaterial(int materialType, bool expected)
+        {
+            bool result = vID.CheckMaterial(materialType);
+            Assert.That(result == expected);
+        }
     }
 }

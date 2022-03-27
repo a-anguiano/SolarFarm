@@ -16,33 +16,32 @@ namespace SolarFarm.BLL
             _repo = repo;
         }
 
-        
         //does this section exits?
         //are there any panels to display if the section exists
         public Result<List<Panel>> FindPanelsBySection(string section)  //dude what
-        {            
+        {   
             List<Panel> panels = _repo.GetAll().Data;
             Result<List<Panel>> result = new Result<List<Panel>>();
             List<Panel> listOfPanelsInSection = new List<Panel>();
 
-            foreach (Panel p in panels)
-            {
-                if (listOfPanelsInSection.Count == 0)    //mmmm
+                foreach (Panel p in panels)
                 {
-                    result.Success = false;
-                    result.Message = " No panels in section";
-                }
+                    if (listOfPanelsInSection.Count == 0)    //mmmm
+                    {
+                        result.Success = false;
+                        result.Message = " No panels in section";
+                    }
 
-                if (p.Section == section)
-                {
-                    Panel panel = p;
-                    listOfPanelsInSection.Add(panel);
+                    if (p.Section == section)
+                    {
+                        Panel panel = p;
+                        listOfPanelsInSection.Add(panel);
+                    }
                 }
-            }
-            result.Data = listOfPanelsInSection;
-            result.Success = true;
-            result.Message = "";
-            return result;
+                result.Data = listOfPanelsInSection;
+                result.Success = true;
+                result.Message = "";
+                return result;            
             //throw new NotImplementedException();
         }
         public Result<Panel> Add(Panel panel)

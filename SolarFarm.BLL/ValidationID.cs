@@ -8,7 +8,12 @@ namespace SolarFarm.BLL
 {
     public class ValidationID
     {
-        public enum MaterialTypes
+            private IPanelRepository _repo;
+            //public ValidationID(IPanelRepository repo)
+            //{
+            //    _repo = repo;
+            //}
+            public enum MaterialTypes
         {
             MuSi,       //multicrystalline_silicon,       //0
             MoSi,       //monocrystalline_silicon, 
@@ -16,10 +21,32 @@ namespace SolarFarm.BLL
             CdTe,       //cadmium_telluride,      
             CIGS        //copper_indium_gallium_selenide      //format
         }
-        //public bool CheckIfPanelExists()
-        //{
 
-        //}
+        public bool CheckForSectionExistence(string section)
+        {
+            List<Panel> panels = _repo.GetAll().Data;
+            foreach (Panel p in panels)
+            {
+                if (p.Section == section)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool CheckForPanelExistence(string section, int row, int column)
+        {
+            List<Panel> panels = _repo.GetAll().Data;
+            foreach (Panel p in panels)
+            {
+                if (p.Section == section && p.Row == row && p.Column == column) //could let them know sooner but oh well
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         public bool CheckSectionIsNotNull(string section)
         {
@@ -57,7 +84,7 @@ namespace SolarFarm.BLL
             }
         }
 
-        public bool CheckMaterial(int material)  //int or enum
+        public bool CheckMaterial(int material)
         {           
             if (material == (int)MaterialTypes.MuSi)
             {
@@ -98,7 +125,7 @@ namespace SolarFarm.BLL
             }
         }
 
-        public bool CheckIsTracking(string isTracking)  //bool? may have to have variable for tracker string
+        public bool CheckIsTracking(string isTracking)
         {
             if (!String.IsNullOrEmpty(isTracking))
             {

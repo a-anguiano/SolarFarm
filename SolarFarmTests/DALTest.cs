@@ -17,23 +17,30 @@ namespace SolarFarmTests
         public void Setup()
         {
             repo = new PanelRepository();
-            
-            _panels = new List<Panel>();
-            Panel bogus = new Panel();
-            bogus.Section = "Upper Hill";
-            bogus.Row = 2;
-            bogus.Column = 3;
-            bogus.Year = new DateTime(2020);
-            bogus.IsTracking = "y";
-            _panels.Add(bogus);
+            //vID = new ValidationID();
 
-            Panel bogus2 = new Panel();
-            bogus2.Section = "Lower Hill";
-            bogus2.Row = 2;
-            bogus2.Column = 3;
-            bogus2.Year = new DateTime(2020);
-            bogus2.IsTracking = "y";
-            _panels.Add(bogus2);
+            //_panels = new List<Panel>();
+            //Panel bogus = new Panel();
+            //bogus.Section = "Upper Hill";
+            //bogus.Row = 2;
+            //bogus.Column = 3;
+            //bogus.Year = new DateTime(2020);
+            //bogus.IsTracking = "y";
+            //_panels.Add(bogus);
+
+            //Panel bogus2 = new Panel();
+            //bogus2.Section = "Lower Hill";
+            //bogus2.Row = 2;
+            //bogus2.Column = 3;
+            //bogus2.Year = new DateTime(2020);
+            //bogus2.IsTracking = "y";
+            //_panels.Add(bogus2);
+        }
+
+        [Test]
+        public void CheckIfExistenceCheckWorks()
+        {
+
         }
 
         //[Test]

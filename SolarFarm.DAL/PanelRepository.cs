@@ -14,14 +14,23 @@ namespace SolarFarm.DAL
             //string path = Directory.GetCurrentDirectory() + @"\Data\SolarPanels.csv";
             //CreateDirectory(path)
 
-            //_panels = new List<Panel>();
-            //Panel panel bogus = new panel();
-            //bogus.section = "upper hill";
-            //bogus.row = 2;
-            //bogus.column = 3;
-            //bogus.year = new datetime(2020);
-            //bogus.istracking = "y";
-            //_panels.add(bogus);
+            //for now, test with these
+            _panels = new List<Panel>();
+            Panel bogus = new Panel();
+            bogus.Section = "upper hill";
+            bogus.Row = 2;
+            bogus.Column = 3;
+            bogus.Year = new DateTime(2020);
+            bogus.IsTracking = "y";
+            _panels.Add(bogus);
+
+            Panel bogus2 = new Panel();
+            bogus2.Section = "upper hill";
+            bogus2.Row = 3;
+            bogus2.Column = 3;
+            bogus2.Year = new DateTime(2020);
+            bogus2.IsTracking = "y";
+            _panels.Add(bogus);
         }
 
         public Result<Panel> Add(Panel panel)
