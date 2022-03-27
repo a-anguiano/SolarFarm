@@ -16,8 +16,8 @@ namespace SolarFarmAssessment.MenuItems
             Selector = 3;
             Description = "Update a Panel";
         }
-        //public IPanelService Service { get; set; }      //hmmmm
-        public override bool Execute(ConsoleIO ui, ValidationID vID, PanelService service)
+        public IPanelService Service { get; set; }      //hmmmm
+        public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
             Console.Clear();
             ui.Display("Update a Panel");
@@ -38,7 +38,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            while (!service.CheckForSectionExistence(section))
+            while (!Service.CheckForSectionExistence(section))
             {
                 ui.Warn("[Err] This section does not exist");
                 section = ui.GetString("Enter Section");
@@ -59,7 +59,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Column must be between 1 and 250");
                 column = ui.GetInt("Enter Column");
             }
-            if (service.CheckForPanelExistence(section, row, column))   //it exists already
+            if (Service.CheckForPanelExistence(section, row, column))   //it exists already
             {
                 ui.Warn("[Err] This panel exists!\nCannot duplicate.");
                 ui.PromptToContinue();
@@ -148,7 +148,7 @@ namespace SolarFarmAssessment.MenuItems
             }
 
             Result<Panel> result = new Result<Panel>();
-            result = service.Update(panel);  //HERE
+            result = Service.Update(panel);  //HERE
 
             //success or error
             ui.Display("\n");

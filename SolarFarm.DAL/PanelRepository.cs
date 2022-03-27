@@ -6,7 +6,7 @@ using System.IO;
 
 namespace SolarFarm.DAL
 {
-    public class PanelRepository : IPanelRepository
+    public class PanelRepository : IPanelRepository         //do I need an interface for the repository?
     {
         private List<Panel> _panels;        //will I need it
         public PanelRepository()                    //for testing purposes
@@ -96,13 +96,12 @@ namespace SolarFarm.DAL
             result.Data = panel;
             for (int i = 0; i < _panels.Count; i++)
             {
-                if (_panels[i].Section == panel.Section)    //hmm
+                if (_panels[i].Section == panel.Section && _panels[i].Row == panel.Row && _panels[i].Column == panel.Column)    //hmm
                 {
                     _panels[i] = panel;
                 }
             }
             return result;
-            //throw new NotImplementedException();
         }
 
         public Result<List<Panel>> GetAll()        //this not sure quite yet
@@ -127,7 +126,6 @@ namespace SolarFarm.DAL
                 }
             }
             return result;
-            //throw new NotImplementedException();
         }
 
     }

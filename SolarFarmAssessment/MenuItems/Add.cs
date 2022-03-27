@@ -30,8 +30,8 @@ namespace SolarFarmAssessment.MenuItems
             Description = "Add a Panel";
         }
 
-        //public IPanelService Service { get; set; }      //hmmmm
-        public override bool Execute(ConsoleIO ui, ValidationID vID, PanelService service)        //consider injection   
+        public IPanelService Service { get; set; }      //hmmmm
+        public override bool Execute(ConsoleIO ui, ValidationID vID)        //consider injection   
         {
             Console.Clear();
             string section, isTracking, yearString;
@@ -48,7 +48,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            while (!service.CheckForSectionExistence(section))  //still happening
+            while (!Service.CheckForSectionExistence(section))  //still happening
             {
                 ui.Warn("[Err] This section does not exist");
                 section = ui.GetString("Enter Section");
@@ -71,7 +71,7 @@ namespace SolarFarmAssessment.MenuItems
                 column = ui.GetInt("Enter Column");                    
             }
 
-            if (service.CheckForPanelExistence(section, row, column))   //it exists already
+            if (Service.CheckForPanelExistence(section, row, column))   //it exists already
             {
                 ui.Warn("[Err] This panel exists!\nCannot duplicate.");
                 ui.PromptToContinue();
@@ -115,7 +115,7 @@ namespace SolarFarmAssessment.MenuItems
             Result<Panel> result = new Result<Panel>();
 
             //ui.Display(Service);
-            result = service.Add(panel);  //HERE
+            result = Service.Add(panel);  //HERE
 
             if (result.Success)
             {

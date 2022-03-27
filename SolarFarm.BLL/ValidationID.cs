@@ -116,9 +116,9 @@ namespace SolarFarm.BLL
         }
 
         //must not duplicate a panel
-        public bool CheckIfDuplicate()          //FIX THIS!!!!!!!
-        {
-            return true;
-        }
+        //public bool CheckIfDuplicate()          //FIX THIS!!!!!!!
+        //{
+        //    return true;
+        //}
     }
 }

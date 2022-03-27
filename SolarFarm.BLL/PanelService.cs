@@ -16,11 +16,11 @@ namespace SolarFarm.BLL
             _repo = repo;
         }
 
-        //does this section exits?
-        //are there any panels to display if the section exists
+        //public PanelRepository _repo;
+
         public bool CheckForSectionExistence(string section)  //hmmm
         {
-            List<Panel> panels = _repo.GetAll().Data;           //AND HERE
+            List<Panel> panels = _repo.GetAll().Data;           //AND HERE something with the _repo is null!!!!!!
             foreach (Panel p in panels)
             {
                 if (p.Section == section)
@@ -31,7 +31,7 @@ namespace SolarFarm.BLL
             return false;
         }
 
-        public bool CheckForPanelExistence(string section, int row, int column)
+        public bool CheckForPanelExistence(string section, int row, int column) //hmm
         {
             List<Panel> panels = _repo.GetAll().Data;
             foreach (Panel p in panels)
@@ -45,71 +45,138 @@ namespace SolarFarm.BLL
         }
 
         public Result<List<Panel>> FindPanelsBySection(string section)  //dude what
-        {   
-            List<Panel> panels = _repo.GetAll().Data;               //HERE hmmm, return is not as simple
+        {
+            List<Panel> panels = _repo.GetAll().Data;
             Result<List<Panel>> result = new Result<List<Panel>>();
             List<Panel> listOfPanelsInSection = new List<Panel>();
 
-                foreach (Panel p in panels)
-                {
-                    if (listOfPanelsInSection.Count == 0)    //mmmm
-                    {
-                        result.Success = false;
-                        result.Message = " No panels in section";
-                    }
+            if (!CheckForSectionExistence(section))
+            {
+                result.Success = false;
+                result.Message = "The section name you entered does not exist";
+                return result;
+            }
+            else
+            {
+               // List<Panel> listOfPanelsInSection = new List<Panel>();
 
+                foreach (Panel p in panels)
+                {                    
                     if (p.Section == section)
                     {
+                        //Panel panel = new Panel();
                         Panel panel = p;
                         listOfPanelsInSection.Add(panel);
                     }
+                }               
+
+                if (listOfPanelsInSection.Count == 0)    //mmmm
+                {
+                    result.Success = false;
+                    result.Message = "No panels in section.";
+                    //return result;
                 }
-                result.Data = listOfPanelsInSection;
-                result.Success = true;
-                result.Message = "";
-                return result;            
-            //throw new NotImplementedException();
+                else
+                {
+                    result.Data = listOfPanelsInSection;
+                    result.Success = true;
+                    result.Message = "Here are the panels";
+                }
+
+                return result;
+            }
         }
         public Result<Panel> Add(Panel panel)
         {
             Result<Panel> result = new Result<Panel>();
+            StringBuilder sb = new StringBuilder();         //added
             result.Data = panel;
-            result.Success = true;
-            _repo.Add(panel);
+            result.Success = true;           
+
+            if(CheckForPanelExistence(panel.Section, panel.Row, panel.Column))
+            {
+                result.Success = false;
+                sb.Append("Cannot add duplicate panel.");
+            }
+
+            result.Message = sb.ToString();
+
+            if (result.Success == true)
+            {
+                _repo.Add(panel);
+            }            
             return result;
         }
         //hmmmm, need to find specific panel to remove
         //check if that panel exists
         public Result<Panel> Remove(string section, int row, int column)
         {
-            Result<Panel> result = _repo.Remove(section, row, column);
+            Result<Panel> result = new Result<Panel>();
+            StringBuilder sb = new StringBuilder();         //added, what about result.message
+            //result.Data = panel;
+            result.Success = true;
+
+            if (!CheckForSectionExistence(section))
+            {
+                result.Success = false;
+                sb.Append("The section does not exist.");
+            }
+
+            if (!CheckForPanelExistence(section, row, column))
+            {
+                result.Success = false;
+                sb.Append("The panel does not exist to be removed.");
+            }
+
+            if (result.Success == true)
+            {
+                _repo.Remove(section, row, column);
+            }            
             return result;
-            //throw new NotImplementedException();
         }
-        public Result<Panel> Update(Panel panel)
+        public Result<Panel> Update(Panel panel)    //change to section, column, row?
         {
             //check for enter key, or null
-            //check if this panel even exists
             List<Panel> panels = _repo.GetAll().Data;
             Result<Panel> result = new Result<Panel>();
-            for (int i = 0; i < panels.Count; i++)
-            {
-                if (panels[i].Section == panel.Section && panels[i].Row == panel.Row && panels[i].Column == panel.Column)
-                {                    
-                    panel.Material = panels[i].Material;
-                    panel.Year = panels[i].Year;
-                    panel.IsTracking = panels[i].IsTracking;
-                    //check all this
+            StringBuilder sb = new StringBuilder();         //added, what about result.message
+            result.Success = true;
 
-                    result.Data = panel;
-                    break;
+            if (!CheckForSectionExistence(panel.Section))
+            {
+                result.Success = false;
+                sb.Append("The section does not exist.");
+            }
+
+            if (!CheckForPanelExistence(panel.Section, panel.Row, panel.Column))
+            {
+                result.Success = false;
+                sb.Append("The panel does not exist to be edited.");
+            }
+
+            else
+            {
+                for (int i = 0; i < panels.Count; i++)
+                {
+                    if (panels[i].Section == panel.Section && panels[i].Row == panel.Row && panels[i].Column == panel.Column)
+                    {
+                        panel.Material = panels[i].Material;
+                        panel.Year = panels[i].Year;
+                        panel.IsTracking = panels[i].IsTracking;
+                        //check all this
+
+                        result.Data = panel;
+                        break;
+                    }
                 }
             }
             
-            result = _repo.Update(panel);
+            if (result.Success == true)
+            {
+                result = _repo.Update(panel);
+            }
+            
             return result;
-
-            //throw new NotImplementedException();
         }
     }
 }

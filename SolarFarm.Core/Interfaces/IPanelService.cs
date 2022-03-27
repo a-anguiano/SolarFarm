@@ -14,5 +14,7 @@ namespace SolarFarm.Core.Interfaces
         Result<Panel> Remove(string section, int row, int column);   // Removes panel for given section, row, col
         Result<Panel> Update(Panel panel);                          // Replaces a panel with given location?
         //may need to change parameter
+        bool CheckForSectionExistence(string section);
+        bool CheckForPanelExistence(string section, int row, int column);
     }
 }
