@@ -2,17 +2,64 @@
 using System.Collections.Generic;
 using SolarFarm.Core.DTO;
 using SolarFarm.Core.Interfaces;
+using System.IO;
 
 namespace SolarFarm.DAL
 {
     public class PanelRepository : IPanelRepository
     {
-        private List<Panel> _panels;
+        private List<Panel> _panels;        //will I need it
         public PanelRepository()                    //for testing purposes
                                                     //made need list of list== sections, panels
         {
+            //Work on ConsoleIO and serialization  (need package for serial)          
+
             //string path = Directory.GetCurrentDirectory() + @"\Data\SolarPanels.csv";
-            //CreateDirectory(path)
+
+            //if (File.Exists(path))
+            //{
+            //// to hold data
+            // List<Panel> panels = new List<Panel>();
+
+            //// create and open streamreader
+            //    using (StreamReader sr = new StreamReader(path))
+            //    {
+            //        string currentLine = sr.ReadLine(); // header line
+            ////maybe make variable for head row... or actually don't have to
+            /////ask if there is a header
+            //        currentLine = sr.ReadLine(); // 1st data row
+
+            //        while (currentLine != null)
+            //        {
+            //            Panel p = new Panel(); // create a panel object for each line
+            //            string[] columns = currentLine.Split(","); // split columns
+
+            //            // add data to object, parsing types as necessary
+            //            p.Section = columns[0];
+            //            p.Row = int.Parse(columns[1]);
+            //            p.Column = int.Parse(columns[2]);
+            //            string month = "1/1/";
+            //            string yearString = columns[3];
+            //            p.Year = DateTime.Parse(month + yearString);
+            //            p.Material = int.Parse(columns[4]);
+            //            p.IsTracking = columns[5];
+
+            //            panels.Add(p); // add object to list
+
+            //            currentLine = sr.ReadLine(); // next line
+            //        }
+            //    }
+            //}
+
+            //    string wholeFile = File.ReadAllText(path);
+
+            //    Console.WriteLine(wholeFile);
+            //}
+            //else
+            //{
+                    //CreateDirectory(path); //perhaps? create csv file
+            //    Console.WriteLine($"File at {path} not found.");
+            //}           
 
             //for now, test with these
             _panels = new List<Panel>();

@@ -14,6 +14,7 @@ namespace SolarFarmAssessment.MenuItems
     class Add : MenuItem
     {
         public IPanelService Service { get; set; }      //hmmmm
+        //maybe move quite a bit of this into BLL
         
         public Add()    
         {
