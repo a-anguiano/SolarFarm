@@ -120,8 +120,7 @@ namespace SolarFarm.BLL
         public Result<Panel> Remove(string section, int row, int column)
         {
             Result<Panel> result = new Result<Panel>();
-            StringBuilder sb = new StringBuilder();         //added, what about result.message
-            //result.Data = panel;
+            StringBuilder sb = new StringBuilder();         
             result.Success = true;
 
             if (!CheckForSectionExistence(section))

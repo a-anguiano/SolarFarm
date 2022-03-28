@@ -37,6 +37,9 @@ namespace SolarFarmTests
             //_panels.Add(bogus2);
         }
 
+        //can we read file, if not, create
+        //is the file writable
+
         [Test]
         public void CheckIfExistenceCheckWorks()
         {
