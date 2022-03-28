@@ -39,11 +39,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            //while (!Service.CheckForSectionExistence(section))  //still happening
-            //{
-            //    ui.Warn("[Err] This section does not exist");
-            //    section = ui.GetString("Enter Section");
-            //}
+
             panel.Section = section;
 
             row = ui.GetInt("Enter Row");
@@ -108,16 +104,16 @@ namespace SolarFarmAssessment.MenuItems
 
             if (result.Success)
             {
-                ui.Display("\n");
-                ui.Display(result.Data.ToString());
+                ui.Display("\n");                
+                ui.Display($"Panel {result.Data.Section}-{result.Data.Row}-{result.Data.Column} added.");
                 ui.PromptToContinue();
-                //running = false;
             }
             else
             {
                 ui.Display(result.Message);
                 ui.PromptToContinue();
             }
+            Console.Clear();
             return true;
         }
     }

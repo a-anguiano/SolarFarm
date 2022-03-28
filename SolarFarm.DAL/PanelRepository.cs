@@ -10,7 +10,6 @@ namespace SolarFarm.DAL
     {
         private List<Panel> _panels;        //will I need it
         public PanelRepository()                    //for testing purposes
-                                                    //made need list of list== sections, panels
         {
             //Work on ConsoleIO and serialization  (need package for serial)          
 
@@ -92,7 +91,7 @@ namespace SolarFarm.DAL
             return result;
         }
 
-        public Result<Panel> Update(Panel panel)    //change to section, row, col
+        public Result<Panel> Update(Panel panel)    
         {
             Result<Panel> result = new Result<Panel>();
             result.Data = panel;
@@ -106,7 +105,7 @@ namespace SolarFarm.DAL
             return result;
         }
 
-        public Result<List<Panel>> GetAll()        //this not sure quite yet
+        public Result<List<Panel>> GetAll()       
         {
             Result<List<Panel>> result = new Result<List<Panel>>();
             result.Success = true;

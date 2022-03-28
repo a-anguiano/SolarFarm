@@ -16,5 +16,6 @@ namespace SolarFarm.Core.Interfaces
         //may need to change parameter
         bool CheckForSectionExistence(string section);
         bool CheckForPanelExistence(string section, int row, int column);
+        Panel GetPanel(string section, int row, int column);
     }
 }

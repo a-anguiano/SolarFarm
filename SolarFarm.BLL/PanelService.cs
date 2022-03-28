@@ -17,6 +17,20 @@ namespace SolarFarm.BLL
             _repo = repo;
         }
 
+        public Panel GetPanel(string section, int row, int column)
+        {
+            List<Panel> panels = _repo.GetAll().Data;
+            Panel panel = new Panel();
+            foreach (Panel p in panels)
+            {
+                if (p.Section == section && p.Row == row && p.Column == column) //could let them know sooner but oh well
+                {
+                    return panel;
+                }
+            }
+            return panel;
+        }
+
         public bool CheckForSectionExistence(string section)  //hmmm
         {
             List<Panel> panels = _repo.GetAll().Data;           
@@ -43,7 +57,7 @@ namespace SolarFarm.BLL
             return false;
         }
 
-        public Result<List<Panel>> FindPanelsBySection(string section)  //dude what
+        public Result<List<Panel>> FindPanelsBySection(string section)
         {
             List<Panel> panels = _repo.GetAll().Data;
             Result<List<Panel>> result = new Result<List<Panel>>();
@@ -57,23 +71,19 @@ namespace SolarFarm.BLL
             }
             else
             {
-               // List<Panel> listOfPanelsInSection = new List<Panel>();
-
                 foreach (Panel p in panels)
                 {                    
                     if (p.Section == section)
                     {
-                        //Panel panel = new Panel();
                         Panel panel = p;
                         listOfPanelsInSection.Add(panel);
                     }
                 }               
 
-                if (listOfPanelsInSection.Count == 0)    //mmmm
+                if (listOfPanelsInSection.Count == 0)
                 {
                     result.Success = false;
                     result.Message = "No panels in section.";
-                    //return result;
                 }
                 else
                 {
@@ -106,8 +116,7 @@ namespace SolarFarm.BLL
             }            
             return result;
         }
-        //hmmmm, need to find specific panel to remove
-        //check if that panel exists
+
         public Result<Panel> Remove(string section, int row, int column)
         {
             Result<Panel> result = new Result<Panel>();
@@ -133,9 +142,8 @@ namespace SolarFarm.BLL
             }            
             return result;
         }
-        public Result<Panel> Update(Panel panel)    //change to section, column, row?
+        public Result<Panel> Update(Panel panel) 
         {
-            //check for enter key, or null
             List<Panel> panels = _repo.GetAll().Data;
             Result<Panel> result = new Result<Panel>();
             StringBuilder sb = new StringBuilder();         //added, what about result.message

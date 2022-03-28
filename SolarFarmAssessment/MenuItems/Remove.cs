@@ -61,16 +61,17 @@ namespace SolarFarmAssessment.MenuItems
             {
                 ui.Warn("[Err] This panel does not exist!\nCannot remove.");
                 ui.PromptToContinue();
+                Console.Clear();
                 return true;    //go to main menu
             }
 
             panel.Column = column;
 
-            //Result<Panel> result =
             Service.Remove(section, row, column);
-            //result.message?
-            //
+
+            ui.Display($"Panel {section}-{row}-{column} removed.");
             ui.PromptToContinue();
+            Console.Clear();
             return true;
         }
     }

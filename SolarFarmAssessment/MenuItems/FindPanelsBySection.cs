@@ -69,7 +69,7 @@ namespace SolarFarmAssessment.MenuItems
                     {
                         mat = "CdTe";
                     }
-                    else //if (matInt == (int)ValidationID.MaterialTypes.CIGS)
+                    else
                     {
                         mat = "CIGS";
                     }
@@ -92,6 +92,7 @@ namespace SolarFarmAssessment.MenuItems
             }
             ui.Display("\n");
             ui.PromptToContinue();
+            Console.Clear();
             return true;
         }
     }
