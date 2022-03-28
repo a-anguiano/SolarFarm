@@ -12,11 +12,10 @@ namespace SolarFarmAssessment
     public class Menu       //consider renaming to MenuController
     {
         public string Name { get; set; }
-        //public IPanelService Service { get; set; }      //hmmmm, unneccessary?
+        public IPanelService Service { get; set; }      //hmmmm, unneccessary?
         public List<MenuItem> MenuItems { get; }
         private ConsoleIO _ui;
         private ValidationID _vID;      //consider this
-        private PanelService _service;
         public Menu(ConsoleIO ui, string name)
         {
             MenuItems = new List<MenuItem>();
@@ -35,7 +34,7 @@ namespace SolarFarmAssessment
             _ui.Display("=====================\n");
 
             bool running = true;
-           // string section = "Upper Hill";  //testing
+           //string section = "Upper Hill";  //testing
 
             while (running)
             {
@@ -46,7 +45,7 @@ namespace SolarFarmAssessment
                     if (mi.Selector == selection)
                     {
                         //Service.FindPanelsBySection(section);
-                        running = mi.Execute(_ui, _vID, _service);  //testing
+                        running = mi.Execute(_ui, _vID);  //testing
                         break;
                     }
                 }

@@ -13,15 +13,6 @@ namespace SolarFarmAssessment.MenuItems
     
     public class Add : MenuItem
     {
-        //public IPanelService Service { get; set; }      //hmmmm
-        
-        //private IPanelService _service;
-
-        //public GuessTracker(INumberGenerator implementation)
-        //{
-        //    _generator = implementation;
-        //}
-
         //maybe move quite a bit of this into BLL
 
         public Add()    
@@ -29,8 +20,8 @@ namespace SolarFarmAssessment.MenuItems
             Selector = 2;
             Description = "Add a Panel";
         }
-
-        public IPanelService Service { get; set; }      //hmmmm
+        IPanelService Service = PanelServiceFactory.GetPanelService();
+       // public IPanelService Service { get; set; }      //hmmmm
         public override bool Execute(ConsoleIO ui, ValidationID vID)        //consider injection   
         {
             Console.Clear();
@@ -48,11 +39,11 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            while (!Service.CheckForSectionExistence(section))  //still happening
-            {
-                ui.Warn("[Err] This section does not exist");
-                section = ui.GetString("Enter Section");
-            }
+            //while (!Service.CheckForSectionExistence(section))  //still happening
+            //{
+            //    ui.Warn("[Err] This section does not exist");
+            //    section = ui.GetString("Enter Section");
+            //}
             panel.Section = section;
 
             row = ui.GetInt("Enter Row");
@@ -110,7 +101,6 @@ namespace SolarFarmAssessment.MenuItems
                 isTracking = ui.GetString("Does it track? Enter [y/n]");
             }
             panel.IsTracking = isTracking;
-            //Service.Add(panel);
 
             Result<Panel> result = new Result<Panel>();
 

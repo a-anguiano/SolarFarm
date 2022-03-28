@@ -19,8 +19,9 @@ namespace SolarFarmAssessment.MenuItems
         public IPanelService Service { get; set; }      //hmmmm
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
+            Console.Clear();
             ui.Display("Remove a Panel");
-            ui.Display("==============");
+            ui.Display("==============\n");
 
             string section;            //other ones?
             int row, column;

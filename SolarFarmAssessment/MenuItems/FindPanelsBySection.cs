@@ -27,14 +27,15 @@ namespace SolarFarmAssessment.MenuItems
             
         //}
 
-        Result<List<Panel>> result = new Result<List<Panel>>(); //hmmm
+        Result<List<Panel>> result = new Result<List<Panel>>(); //hmmm, may move in
 
         //public override bool Execute(ConsoleIO ui, ValidationID vID, PanelService service)
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
+            Console.Clear();
             string section;
             ui.Display("Find Panels by Section");
-            ui.Display("======================");
+            ui.Display("======================\n");
             section = ui.GetString("Enter Section");
             vID = new ValidationID();
             //service = new PanelService();  //hmmmmm
@@ -55,13 +56,13 @@ namespace SolarFarmAssessment.MenuItems
             if (Service == null)
             {
                 ui.Display("null");
-            }
-            //Result<List<Panel>> result = Service.FindPanelsBySection(section);  //here too
+            }           
             if (result.Success)
             {
                 //or if it is csv, let's look into that
                 foreach (Panel panel in result.Data)
                 {
+                    ui.Display("\n");
                     ui.Display(panel.ToString());
                 }
             }
@@ -69,6 +70,8 @@ namespace SolarFarmAssessment.MenuItems
             {
                 ui.Display(result.Message);
             }
+
+            ui.PromptToContinue();
             return true;
         }
     }
