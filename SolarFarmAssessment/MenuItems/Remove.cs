@@ -16,11 +16,13 @@ namespace SolarFarmAssessment.MenuItems
             Selector = 4;
             Description = "Remove a Panel";
         }
-        public IPanelService Service { get; set; }      //hmmmm
+        IPanelService Service = PanelServiceFactory.GetPanelService();
+
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
+            Console.Clear();
             ui.Display("Remove a Panel");
-            ui.Display("==============");
+            ui.Display("==============\n");
 
             string section;            //other ones?
             int row, column;
@@ -34,7 +36,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            while (!vID.CheckForSectionExistence(section))
+            while (!Service.CheckForSectionExistence(section))
             {
                 ui.Warn("[Err] This section does not exist");
                 section = ui.GetString("Enter Section");
@@ -55,20 +57,21 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Column must be between 1 and 250");
                 column = ui.GetInt("Enter Column");
             }
-            if (!vID.CheckForPanelExistence(section, row, column))  //it does not exist
+            if (!Service.CheckForPanelExistence(section, row, column))  //it does not exist
             {
                 ui.Warn("[Err] This panel does not exist!\nCannot remove.");
                 ui.PromptToContinue();
+                Console.Clear();        //did not clear?
                 return true;    //go to main menu
             }
 
             panel.Column = column;
 
-            //Result<Panel> result =
             Service.Remove(section, row, column);
-            //result.message?
-            //
+
+            ui.Display($"Panel {section}-{row}-{column} removed.");
             ui.PromptToContinue();
+            Console.Clear();
             return true;
         }
     }
