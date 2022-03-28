@@ -79,7 +79,7 @@ namespace SolarFarm.DAL
             bogus2.Material = 1;
             bogus2.Year = new DateTime(2021, 1, 1);
             bogus2.IsTracking = "n";
-            _panels.Add(bogus);
+            _panels.Add(bogus2);
         }
 
         public Result<Panel> Add(Panel panel)
