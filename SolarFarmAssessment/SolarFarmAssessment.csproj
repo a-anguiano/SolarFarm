@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SolarFarm.BLL\SolarFarm.BLL.csproj" />
     <ProjectReference Include="..\SolarFarm.Core\SolarFarm.Core.csproj" />
   </ItemGroup>

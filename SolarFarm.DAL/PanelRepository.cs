@@ -49,23 +49,23 @@ namespace SolarFarm.DAL
                 result.Data = _panels;
                 //result.Data = new List<Panel>(_panels);
                 return result;
-            }        
+            }
 
-            public void WriteAll(List<Panel> panels)
+        public void WriteAll(List<Panel> panels)
+        {
+            using (StreamWriter sw = new StreamWriter(Path))    //HERE
             {
-                using (StreamWriter sw = new StreamWriter(Path))
+                if (fmt.HasHeaderLine())
                 {
-                    if (fmt.HasHeaderLine())
-                    {
-                        sw.WriteLine(fmt.HeaderLine());
-                    }
+                    sw.WriteLine(fmt.HeaderLine());
+                }
 
-                    foreach (Panel p in panels)
-                    {
-                        sw.WriteLine(fmt.Serialize(p));
-                    }
+                foreach (Panel p in panels)
+                {
+                    sw.WriteLine(fmt.Serialize(p));
                 }
             }
+        }
         //Work on ConsoleIO and serialization  (need package for serial)          
 
         //    string path = Directory.GetCurrentDirectory() + @"\Data\SolarPanels.csv";
@@ -114,7 +114,7 @@ namespace SolarFarm.DAL
         //    }
         //}
 
-            public Result<Panel> Add(Panel panel)
+        public Result<Panel> Add(Panel panel)
             {
                 _panels = GetAll().Data;
                 _panels.Add(panel);
@@ -155,15 +155,5 @@ namespace SolarFarm.DAL
                 }
                 return result;
             }
-
-        //public Result<List<Panel>> GetAll()       
-        //{
-        //    Result<List<Panel>> result = new Result<List<Panel>>();
-        //    result.Success = true;
-        //    result.Message = "";
-        //    result.Data = new List<Panel>(_panels);
-        //    return result;
-        //}
-
     }
 }
