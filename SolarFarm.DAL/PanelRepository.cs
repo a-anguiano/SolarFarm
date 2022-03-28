@@ -9,7 +9,7 @@ namespace SolarFarm.DAL
 {
     public class PanelRepository : IPanelRepository         //do I need an interface for the repository?
     {
-        private List<Panel> _panels;        //will I need it
+        private List<Panel> _panels;        
 
 
         //public PanelRepository()                    //for testing purposes
@@ -19,7 +19,7 @@ namespace SolarFarm.DAL
         
             public Result<List<Panel>> GetAll()
             {
-                _panels = new();         //swap
+                _panels = new();         
                 Result<List<Panel>> result = new Result<List<Panel>>();            
 
                 if (File.Exists(Path))
@@ -49,9 +49,7 @@ namespace SolarFarm.DAL
                 result.Data = _panels;
                 //result.Data = new List<Panel>(_panels);
                 return result;
-            }
-            //return results;
-        
+            }        
 
             public void WriteAll(List<Panel> panels)
             {
@@ -118,6 +116,7 @@ namespace SolarFarm.DAL
 
             public Result<Panel> Add(Panel panel)
             {
+                _panels = GetAll().Data;
                 _panels.Add(panel);
                 Result<Panel> result = new Result<Panel>();
                 result.Data = panel;
