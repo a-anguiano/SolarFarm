@@ -14,4 +14,10 @@
     <ProjectReference Include="..\SolarFarm.Core\SolarFarm.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\Panels.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
