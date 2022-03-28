@@ -6,11 +6,10 @@ using System.IO;
 
 namespace SolarFarm.DAL
 {
-    public class PanelRepository : IPanelRepository
+    public class PanelRepository : IPanelRepository         //do I need an interface for the repository?
     {
         private List<Panel> _panels;        //will I need it
         public PanelRepository()                    //for testing purposes
-                                                    //made need list of list== sections, panels
         {
             //Work on ConsoleIO and serialization  (need package for serial)          
 
@@ -67,7 +66,8 @@ namespace SolarFarm.DAL
             bogus.Section = "upper hill";
             bogus.Row = 2;
             bogus.Column = 3;
-            bogus.Year = new DateTime(2020);
+            bogus.Material = 0;
+            bogus.Year = new DateTime(2020, 1, 1);
             bogus.IsTracking = "y";
             _panels.Add(bogus);
 
@@ -75,9 +75,10 @@ namespace SolarFarm.DAL
             bogus2.Section = "upper hill";
             bogus2.Row = 3;
             bogus2.Column = 3;
-            bogus2.Year = new DateTime(2020);
-            bogus2.IsTracking = "y";
-            _panels.Add(bogus);
+            bogus2.Material = 1;
+            bogus2.Year = new DateTime(2021, 1, 1);
+            bogus2.IsTracking = "n";
+            _panels.Add(bogus2);
         }
 
         public Result<Panel> Add(Panel panel)
@@ -90,22 +91,21 @@ namespace SolarFarm.DAL
             return result;
         }
 
-        public Result<Panel> Update(Panel panel)    //change to section, row, col
+        public Result<Panel> Update(Panel panel)    
         {
             Result<Panel> result = new Result<Panel>();
             result.Data = panel;
             for (int i = 0; i < _panels.Count; i++)
             {
-                if (_panels[i].Section == panel.Section)    //hmm
+                if (_panels[i].Section == panel.Section && _panels[i].Row == panel.Row && _panels[i].Column == panel.Column)    //hmm
                 {
                     _panels[i] = panel;
                 }
             }
             return result;
-            //throw new NotImplementedException();
         }
 
-        public Result<List<Panel>> GetAll()        //this not sure quite yet
+        public Result<List<Panel>> GetAll()       
         {
             Result<List<Panel>> result = new Result<List<Panel>>();
             result.Success = true;
@@ -127,7 +127,6 @@ namespace SolarFarm.DAL
                 }
             }
             return result;
-            //throw new NotImplementedException();
         }
 
     }

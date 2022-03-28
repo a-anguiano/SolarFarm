@@ -11,21 +11,20 @@ using SolarFarm.Core.DTO;
 namespace SolarFarmAssessment.MenuItems
 {
     
-    class Add : MenuItem
+    public class Add : MenuItem
     {
-        public IPanelService Service { get; set; }      //hmmmm
         //maybe move quite a bit of this into BLL
-        
+
         public Add()    
         {
             Selector = 2;
             Description = "Add a Panel";
         }
+        IPanelService Service = PanelServiceFactory.GetPanelService();
 
-        //public IPanelService Service { get; set; }      //hmmmm
-        public override bool Execute(ConsoleIO ui, ValidationID vID)        
+        public override bool Execute(ConsoleIO ui, ValidationID vID)   
         {
-            //Console.Clear();
+            Console.Clear();
             string section, isTracking, yearString;
             int row, column;
             DateTime year;
@@ -40,11 +39,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            while (!vID.CheckForSectionExistence(section))
-            {
-                ui.Warn("[Err] This section does not exist");
-                section = ui.GetString("Enter Section");
-            }
+
             panel.Section = section;
 
             row = ui.GetInt("Enter Row");
@@ -63,7 +58,7 @@ namespace SolarFarmAssessment.MenuItems
                 column = ui.GetInt("Enter Column");                    
             }
 
-            if (vID.CheckForPanelExistence(section, row, column))   //it exists already
+            if (Service.CheckForPanelExistence(section, row, column))   //it exists already
             {
                 ui.Warn("[Err] This panel exists!\nCannot duplicate.");
                 ui.PromptToContinue();
@@ -102,25 +97,23 @@ namespace SolarFarmAssessment.MenuItems
                 isTracking = ui.GetString("Does it track? Enter [y/n]");
             }
             panel.IsTracking = isTracking;
-            //Service.Add(panel);
 
             Result<Panel> result = new Result<Panel>();
 
-            //ui.Display(Service);
-            result = Service.Add(panel);  //HERE
+            result = Service.Add(panel);
 
             if (result.Success)
             {
-                ui.Display("\n");
-                ui.Display(result.Data.ToString());
+                ui.Display("\n");                
+                ui.Display($"Panel {result.Data.Section}-{result.Data.Row}-{result.Data.Column} added.");
                 ui.PromptToContinue();
-                //running = false;
             }
             else
             {
                 ui.Display(result.Message);
                 ui.PromptToContinue();
             }
+            Console.Clear();
             return true;
         }
     }

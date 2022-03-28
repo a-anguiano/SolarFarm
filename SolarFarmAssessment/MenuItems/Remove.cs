@@ -61,7 +61,7 @@ namespace SolarFarmAssessment.MenuItems
             {
                 ui.Warn("[Err] This panel does not exist!\nCannot remove.");
                 ui.PromptToContinue();
-                Console.Clear();        //did not clear?
+                Console.Clear();
                 return true;    //go to main menu
             }
 

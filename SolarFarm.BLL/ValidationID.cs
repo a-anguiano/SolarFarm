@@ -8,44 +8,13 @@ namespace SolarFarm.BLL
 {
     public class ValidationID
     {
-            private IPanelRepository _repo;
-            //public ValidationID(IPanelRepository repo)
-            //{
-            //    _repo = repo;
-            //}
-            public enum MaterialTypes
+        public enum MaterialTypes
         {
             MuSi,       //multicrystalline_silicon,       //0
             MoSi,       //monocrystalline_silicon, 
             AmSi,       //amorphous_silicon, 
             CdTe,       //cadmium_telluride,      
             CIGS        //copper_indium_gallium_selenide      //format
-        }
-
-        public bool CheckForSectionExistence(string section)
-        {
-            List<Panel> panels = _repo.GetAll().Data;
-            foreach (Panel p in panels)
-            {
-                if (p.Section == section)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool CheckForPanelExistence(string section, int row, int column)
-        {
-            List<Panel> panels = _repo.GetAll().Data;
-            foreach (Panel p in panels)
-            {
-                if (p.Section == section && p.Row == row && p.Column == column) //could let them know sooner but oh well
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public bool CheckSectionIsNotNull(string section)
@@ -144,12 +113,6 @@ namespace SolarFarm.BLL
             {
                 return false;
             }
-        }
-
-        //must not duplicate a panel
-        public bool CheckIfDuplicate()          //FIX THIS!!!!!!!
-        {
-            return true;
         }
     }
 }

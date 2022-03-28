@@ -16,15 +16,16 @@ namespace SolarFarmAssessment.MenuItems
             Selector = 3;
             Description = "Update a Panel";
         }
-        public IPanelService Service { get; set; }      //hmmmm
+        IPanelService Service = PanelServiceFactory.GetPanelService();
+
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
             Console.Clear();
             ui.Display("Update a Panel");
             ui.Display("==============\n");
 
-            string section, sectionNew, isTracking, isTrackingNew, 
-                material, materialNew, yearStringNew,
+            string section, sectionNew, isTrackingNew, 
+               materialNew, yearStringNew,
                 rowStringNew, columnStringNew;              //other ones?
 
             int row, rowNew, column, columnNew;
@@ -38,7 +39,7 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            while (!vID.CheckForSectionExistence(section))
+            while (!Service.CheckForSectionExistence(section))
             {
                 ui.Warn("[Err] This section does not exist");
                 section = ui.GetString("Enter Section");
@@ -59,34 +60,30 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Column must be between 1 and 250");
                 column = ui.GetInt("Enter Column");
             }
-            if (vID.CheckForPanelExistence(section, row, column))   //it exists already
+            if (!Service.CheckForPanelExistence(section, row, column))
             {
-                ui.Warn("[Err] This panel exists!\nCannot duplicate.");
+                ui.Warn("[Err] This panel does not exist!\nCannot edit a non-existing panel.");
                 ui.PromptToContinue();
+                Console.Clear();
                 return true;    //go to main menu
             }
-            panel.Column = column;
-
-            //get the Panel specified by section, row, col
-            //return other properties if it does exist
+            panel.Column = column;            
 
             ui.Display($"\nEditing {panel.Section}-{panel.Row}-{panel.Column}");
             ui.Display("Press [Enter] to keep original value.\n");
 
-
-            //watch for enter key
             //a lot of this may need to go in PanelService
-            sectionNew = ui.GetString($"Section ({panel.Section})");
+            sectionNew = ui.GetResponse($"Section ({panel.Section})");
             if (String.IsNullOrEmpty(sectionNew))
             {
-                panel.Section = section;        //continue?
+                panel.Section = section;       //continue?
             }
             else
             {
                 panel.Section = sectionNew;
             }
 
-            rowStringNew = ui.GetString($"Row ({panel.Row})");       //read as string perhaps
+            rowStringNew = ui.GetResponse($"Row ({panel.Row})");       
             if (String.IsNullOrEmpty(rowStringNew))
             {
                 panel.Row = row;
@@ -97,7 +94,7 @@ namespace SolarFarmAssessment.MenuItems
                 panel.Row = rowNew;
             }
 
-            columnStringNew = ui.GetString($"Column ({panel.Column})");
+            columnStringNew = ui.GetResponse($"Column ({panel.Column})");
             if (String.IsNullOrEmpty(columnStringNew))
             {
                 panel.Column = column;
@@ -108,16 +105,37 @@ namespace SolarFarmAssessment.MenuItems
                 panel.Row = columnNew;
             }
 
+            Panel oldPanel = new Panel();
 
-            material = "TestMaterial";      //for testing
-            year = new DateTime();          //for testing
-            isTracking = "y";               //for testing
+            oldPanel = Service.GetPanel(section, row, column);
 
-            materialNew = ui.GetString($"Material ({panel.Material})");
+            int matInt = oldPanel.Material;
+            string mat;
+            if (matInt == (int)ValidationID.MaterialTypes.MuSi)
+            {
+                mat = "MuSi";
+            }
+            else if (matInt == (int)ValidationID.MaterialTypes.MoSi)
+            {
+                mat = "MoSi";
+            }
+            else if (matInt == (int)ValidationID.MaterialTypes.AmSi)
+            {
+                mat = "AmSi";
+            }
+            else if (matInt == (int)ValidationID.MaterialTypes.CdTe)
+            {
+                mat = "CdTe";
+            }
+            else 
+            {
+                mat = "CIGS";
+            }            
+
+            materialNew = ui.GetResponse($"Material ({mat})");
             if (String.IsNullOrEmpty(materialNew))
             {
-                int materialInt = int.Parse(material); 
-                panel.Material = materialInt;
+                panel.Material = oldPanel.Material; 
             }
             else
             {
@@ -125,10 +143,12 @@ namespace SolarFarmAssessment.MenuItems
                 panel.Material = materialIntNew;
             }
 
-            yearStringNew = ui.GetString($"Installation Year ({panel.Year})");
+            string oldYear = oldPanel.Year.ToString("yyyy");
+
+            yearStringNew = ui.GetResponse($"Installation Year ({oldYear})");
             if (String.IsNullOrEmpty(yearStringNew))
             {
-                panel.Year = year;
+                panel.Year = oldPanel.Year;
             }
             else
             {
@@ -136,11 +156,20 @@ namespace SolarFarmAssessment.MenuItems
                 yearNew = DateTime.Parse(month + yearStringNew);              //tryparse
                 panel.Year = yearNew;
             }
-            
-            isTrackingNew = ui.GetString($"Tracked ({panel.IsTracking}) [y/n]");
+
+            string track = oldPanel.IsTracking;
+            if (track == "y")
+            {
+                track = "yes";
+            }
+            else
+            {
+                track = "no";
+            }
+            isTrackingNew = ui.GetResponse($"Tracked ({track}) [y/n]");
             if (String.IsNullOrEmpty(isTrackingNew))
             {
-                panel.IsTracking = isTracking;
+                panel.IsTracking = oldPanel.IsTracking;
             }
             else
             {
@@ -148,11 +177,13 @@ namespace SolarFarmAssessment.MenuItems
             }
 
             Result<Panel> result = new Result<Panel>();
-            result = Service.Update(panel);  //HERE
+            result = Service.Update(panel);
 
-            //success or error
             ui.Display("\n");
-            ui.Display(result.Message);
+            ui.Display($"Panel {result.Data.Section}-{result.Data.Row}-{result.Data.Column} updated.");
+            //ui.Display(result.Message);
+            ui.PromptToContinue();
+            Console.Clear();
             return true;
         }
     }

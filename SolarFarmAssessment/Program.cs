@@ -14,10 +14,9 @@ namespace SolarFarmAssessment
             ConsoleIO ui = new ConsoleIO();
             Menu menu = MenuFactory.GetMainMenu(ui);
 
-            //ApplicationMode mode = menu.Setup();  //Get test vs live mode
-            //IRecordService service = RecordServiceFactory.GetRecordService(mode);
-            //menu.Service = service;
-            menu.Run();    //Do the thing!
+            IPanelService service = PanelServiceFactory.GetPanelService();
+            menu.Service = service;
+            menu.Run();
         }
     }
 }
