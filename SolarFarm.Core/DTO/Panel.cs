@@ -13,6 +13,6 @@ namespace SolarFarm.Core.DTO
         public int Column { get; set; }
         public DateTime Year { get; set; } 
         public int Material { get; set; }        
-        public string IsTracking { get; set; }      //string, or um bool?, display as string
+        public string IsTracking { get; set; }   
     }
 }

@@ -19,7 +19,7 @@ namespace SolarFarm.BLL
 
         public bool CheckForSectionExistence(string section)  //hmmm
         {
-            List<Panel> panels = _repo.GetAll().Data;           //AND HERE something with the _repo is null!!!!!!
+            List<Panel> panels = _repo.GetAll().Data;           
             foreach (Panel p in panels)
             {
                 if (p.Section == section)
@@ -53,7 +53,7 @@ namespace SolarFarm.BLL
             {
                 result.Success = false;
                 result.Message = "The section name you entered does not exist";
-                return result;
+                return result;                                                      //think about looping back to prompt
             }
             else
             {
@@ -79,7 +79,7 @@ namespace SolarFarm.BLL
                 {
                     result.Data = listOfPanelsInSection;
                     result.Success = true;
-                    result.Message = "Here are the panels";
+                    result.Message = "";
                 }
 
                 return result;

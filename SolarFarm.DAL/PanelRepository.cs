@@ -67,7 +67,8 @@ namespace SolarFarm.DAL
             bogus.Section = "upper hill";
             bogus.Row = 2;
             bogus.Column = 3;
-            bogus.Year = new DateTime(2020);
+            bogus.Material = 0;
+            bogus.Year = new DateTime(2020, 1, 1);
             bogus.IsTracking = "y";
             _panels.Add(bogus);
 
@@ -75,8 +76,9 @@ namespace SolarFarm.DAL
             bogus2.Section = "upper hill";
             bogus2.Row = 3;
             bogus2.Column = 3;
-            bogus2.Year = new DateTime(2020);
-            bogus2.IsTracking = "y";
+            bogus2.Material = 1;
+            bogus2.Year = new DateTime(2021, 1, 1);
+            bogus2.IsTracking = "n";
             _panels.Add(bogus);
         }
 
