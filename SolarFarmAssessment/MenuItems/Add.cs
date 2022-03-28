@@ -13,14 +13,22 @@ namespace SolarFarmAssessment.MenuItems
     
     public class Add : MenuItem
     {
-        //maybe move quite a bit of this into BLL
 
-        public Add()    
+        private readonly IPanelService Service; //hmmm
+
+        public Add(IPanelService panelService)
         {
             Selector = 2;
             Description = "Add a Panel";
+            Service = panelService;                 //hmmm
         }
-        IPanelService Service = PanelServiceFactory.GetPanelService();
+        //maybe move quite a bit of this into BLL
+
+        //public Add()    
+        //{
+            
+        //}
+        //IPanelService Service = PanelService();
 
         public override bool Execute(ConsoleIO ui, ValidationID vID)   
         {

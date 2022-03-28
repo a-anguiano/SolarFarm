@@ -4,163 +4,146 @@ using SolarFarm.Core.DTO;
 using SolarFarm.Core.Interfaces;
 using System.IO;
 using SolarFarm.Core;
+using System.Linq;
 
 namespace SolarFarm.DAL
 {
+
+    //DAL testing
+    //can we read file, if not, create
+    //is the file writable
     public class PanelRepository : IPanelRepository        
     {
-        private List<Panel> _panels;        
+        private readonly string _fileName;
+        private readonly List<Panel> _panels;       
 
+        public PanelRepository(string fileName)
+        {
+            _fileName = fileName;
+            _panels = new List<Panel>();
+            Init();
+        }
+        public Result<List<Panel>> Index()
+        {
+            return new Result<List<Panel>> { Success = true, Data = _panels };
+        }
+        public Result<Panel> Add(Panel panel)
+        {
+            _panels.Add(panel);
+            SaveAllPanels2File();
+            return new Result<Panel> { Success = true, Data = panel };
+        }
+        public Result<Panel> Update(Panel panel2Update)
+        {
+            var result = new Result<Panel>();
 
-        //public PanelRepository()                    //for testing purposes
-        //{
-        //}
-             public string Path { get; set; }             
-             public IPanelFormatter Fmt { get; set; }
+            if (_panels.Where(panel => panel.Section == panel2Update.Section && panel.Row == panel2Update.Row && panel.Column == panel2Update.Column).Select(_ => panel2Update).Any())    //hmmm
+            {
+                SaveAllPanels2File();
+                result.Success = true;
+                return result;
+            }
 
-             //string csvPath = Directory.GetCurrentDirectory() + @"\Data\Panels.csv";    //testing
-             //IPanelFormatter csvFormat = new PanelCSVFormatter();
+            result.Success = false;
+            result.Message = "Panel not found";
+            return result;
+        }
+        public Result<Panel> Remove(string section, int row, int col)
+        {
+            var result = new Result<Panel>();
 
-        //PanelRepository csv.Fmt = csvFormat;
-        //csv.Path = csvPath;
+            foreach (var record in _panels.Where(panel => panel.Section == section && panel.Row == row && panel.Column == col))
+            {
+                _panels.Remove(record);
+                SaveAllPanels2File();
+                result.Success = true;
+                result.Data = record;
+                return result;
+            }
+
+            result.Success = false;
+            result.Message = "Record not found";
+            return result;
+        }
+        private void Init()
+        {
+            if (!File.Exists(_fileName))
+            {
+                File.Create(_fileName).Close();
+                return;
+            }
+            using var sr = new StreamReader(_fileName);
+            string? row;
+            while ((row = sr.ReadLine()) != null)
+            {
+                _panels.Add(Deserialize(row));
+            }
+        }
+
+        private static Panel Deserialize(string row)
+        {
+            var panel = new Panel();
+            var columns = row.Split(',');
+            panel.Section = columns[0];
+            panel.Row = int.Parse(columns[1]);
+            panel.Column = int.Parse(columns[2]);
+            string month = "1/1/";
+            string yearString = columns[3];
+            panel.Year = DateTime.Parse(month + yearString);
+            panel.Material = int.Parse(columns[4]);
+            panel.IsTracking = columns[5];
+
+            return panel;
+        }
+        private void SaveAllPanels2File()
+        {
+            using var sw = new StreamWriter(_fileName);
+            foreach (var panel in _panels)
+            {
+                sw.WriteLine(
+                  $"{panel.Section},{panel.Row},{panel.Column},{panel.Year},{panel.Material},{panel.IsTracking}");
+            }
+        }
         public Result<List<Panel>> GetAll()
         {
-            
-            _panels = new();
             Result<List<Panel>> result = new Result<List<Panel>>();
-
-            if (File.Exists(csvPath))
-            {
-                using (StreamReader sr = new StreamReader(csvPath))    //testing
-                {
-                    string line = sr.ReadLine();
-                    if (line != null && Fmt.HasHeaderLine())    //exception thrown 
-                    {
-                        line = sr.ReadLine();
-                    }
-
-                    while (line != null)
-                    {
-                        _panels.Add(Fmt.Deserialize(line));
-                        line = sr.ReadLine();
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine($"Cannot find {csvPath}");
-            }
 
             result.Success = true;
             result.Message = "";
             result.Data = _panels;
-            //result.Data = new List<Panel>(_panels);
             return result;
         }
+  
 
-        public void WriteAll(List<Panel> _panels)   //hmmm
-        {
-            using (StreamWriter sw = new StreamWriter(csvPath))    //HERE
-            {
-                if (Fmt.HasHeaderLine())
-                {
-                    sw.WriteLine(Fmt.HeaderLine());
-                }
-
-                foreach (Panel p in _panels)
-                {
-                    sw.WriteLine(Fmt.Serialize(p));
-                }
-            }
-        }
-        //Work on ConsoleIO and serialization  (need package for serial)          
-
-        //        string path = Directory.GetCurrentDirectory() + @"\Data\Panels.csv";
-
-        //            if (File.Exists(path))
+        //    public Result<Panel> Update(Panel panel)    
+        //    {
+        //        Result<Panel> result = new Result<Panel>();
+        //        result.Data = panel;
+        //        for (int i = 0; i < _panels.Count; i++)
+        //        {
+        //            if (_panels[i].Section == panel.Section && _panels[i].Row == panel.Row && _panels[i].Column == panel.Column)    //hmm
         //            {
-        //                // to hold data
-        //                List<Panel> panels = new List<Panel>();
-
-        //                // create and open streamreader
-        //                using (StreamReader sr = new StreamReader(path))
-        //                {
-        //                    string currentLine = sr.ReadLine(); // header line
-        //                                                        //maybe make variable for head row... or actually don't have to
-        //    ///ask if there is a header
-        //    currentLine = sr.ReadLine(); // 1st data row
-
-        //                    while (currentLine != null)
-        //                    {
-        //                        Panel p = new Panel(); // create a panel object for each line
-        //    string[] columns = currentLine.Split(","); // split columns
-
-        //    // add data to object, parsing types as necessary
-        //    p.Section = columns[0];
-        //                        p.Row = int.Parse(columns[1]);
-        //    p.Column = int.Parse(columns[2]);
-        //    string month = "1/1/";
-        //    string yearString = columns[3];
-        //    p.Year = DateTime.Parse(month + yearString);
-        //                        p.Material = int.Parse(columns[4]);
-        //    p.IsTracking = columns[5];
-
-        //                        panels.Add(p); // add object to list
-
-        //                        currentLine = sr.ReadLine(); // next line
-        //                    }
-        //                }
+        //                _panels[i] = panel;
         //            }
-
-        //            //string wholeFile = File.ReadAllText(path);
-
-        //    //Console.WriteLine(wholeFile);
-        //else
-        //{
-        //    Console.WriteLine($"File at {path} not found.");
-        //}
         //        }
-
-        public Result<Panel> Add(Panel panel)
-            {
-                _panels = GetAll().Data;
-                _panels.Add(panel);
-                Result<Panel> result = new Result<Panel>();
-                result.Data = panel;
-                result.Success = true;
-                result.Message = "";
-                return result;
-            }
-
-            public Result<Panel> Update(Panel panel)    
-            {
-                Result<Panel> result = new Result<Panel>();
-                result.Data = panel;
-                for (int i = 0; i < _panels.Count; i++)
-                {
-                    if (_panels[i].Section == panel.Section && _panels[i].Row == panel.Row && _panels[i].Column == panel.Column)    //hmm
-                    {
-                        _panels[i] = panel;
-                    }
-                }
-                return result;
-            }
+        //        return result;
+        //    }
 
         
-            public Result<Panel> Remove(string section, int row, int column)
-            {
-                Result<Panel> result = new Result<Panel>();
-                for (int i = 0; i < _panels.Count; i++)
-                {
-                    if (_panels[i].Section == section && _panels[i].Row == row && _panels[i].Column == column)  //hmmm
-                    {
-                        result.Data = _panels[i];
-                        result.Success = true;
-                        result.Message = "";
-                        _panels.Remove(_panels[i]);
-                    }
-                }
-                return result;
-            }
+        //    public Result<Panel> Remove(string section, int row, int column)
+        //    {
+        //        Result<Panel> result = new Result<Panel>();
+        //        for (int i = 0; i < _panels.Count; i++)
+        //        {
+        //            if (_panels[i].Section == section && _panels[i].Row == row && _panels[i].Column == column)  //hmmm
+        //            {
+        //                result.Data = _panels[i];
+        //                result.Success = true;
+        //                result.Message = "";
+        //                _panels.Remove(_panels[i]);
+        //            }
+        //        }
+        //        return result;
+        //    }
     }
 }

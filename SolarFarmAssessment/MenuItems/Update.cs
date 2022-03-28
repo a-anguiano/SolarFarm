@@ -11,12 +11,14 @@ namespace SolarFarmAssessment.MenuItems
 {
     class Update : MenuItem
     {
-        public Update()
+        private readonly IPanelService Service; //hmmm
+        public Update(IPanelService panelService)
         {
             Selector = 3;
             Description = "Update a Panel";
+            Service = panelService;
         }
-        IPanelService Service = PanelServiceFactory.GetPanelService();
+        //IPanelService Service = PanelServiceFactory.GetPanelService();
 
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {

@@ -11,13 +11,13 @@ namespace SolarFarmAssessment.MenuItems
 {
     class FindPanelsBySection : MenuItem
     {
+        private readonly IPanelService Service;
 
-        IPanelService Service = PanelServiceFactory.GetPanelService();
-
-        public FindPanelsBySection()
+        public FindPanelsBySection(IPanelService panelService)
         {
             Selector = 1;
             Description = "Find Panels by Section";
+            Service = panelService;
         }
 
         Result<List<Panel>> result = new Result<List<Panel>>(); //hmmm, may move in

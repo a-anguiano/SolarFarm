@@ -11,12 +11,14 @@ namespace SolarFarmAssessment.MenuItems
 {
     class Remove : MenuItem
     {
-        public Remove()
+        private readonly IPanelService Service; //hmmm
+        public Remove(IPanelService panelService)
         {
             Selector = 4;
             Description = "Remove a Panel";
+            Service = panelService;
         }
-        IPanelService Service = PanelServiceFactory.GetPanelService();
+        //IPanelService Service = PanelServiceFactory.GetPanelService();
 
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {

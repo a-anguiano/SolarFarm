@@ -16,7 +16,7 @@ namespace SolarFarmAssessment
         public List<MenuItem> MenuItems { get; }
         private ConsoleIO _ui;
         private ValidationID _vID;      //consider this
-        public Menu(ConsoleIO ui, string name)
+        public Menu(ConsoleIO ui, PanelService service, string name)
         {
             MenuItems = new List<MenuItem>();
             _ui = ui;
