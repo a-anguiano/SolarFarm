@@ -9,14 +9,13 @@ namespace SolarFarm.BLL
 {
     public class PanelService : IPanelService
     {
+        //IPanelService check
         private IPanelRepository _repo;
 
         public PanelService(IPanelRepository repo)
         {
             _repo = repo;
         }
-
-        //public PanelRepository _repo;
 
         public bool CheckForSectionExistence(string section)  //hmmm
         {

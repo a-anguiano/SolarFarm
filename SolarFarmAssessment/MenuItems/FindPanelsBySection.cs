@@ -11,25 +11,17 @@ namespace SolarFarmAssessment.MenuItems
 {
     class FindPanelsBySection : MenuItem
     {
-        
 
-        public IPanelService Service { get; set; } //= null!;   //not sure
+        IPanelService Service = PanelServiceFactory.GetPanelService();
+
         public FindPanelsBySection()
         {
             Selector = 1;
             Description = "Find Panels by Section";
         }
 
-        //private IPanelRepository _repo;
-
-        //public PanelService()
-        //{
-            
-        //}
-
         Result<List<Panel>> result = new Result<List<Panel>>(); //hmmm, may move in
 
-        //public override bool Execute(ConsoleIO ui, ValidationID vID, PanelService service)
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
             Console.Clear();
@@ -38,8 +30,6 @@ namespace SolarFarmAssessment.MenuItems
             ui.Display("======================\n");
             section = ui.GetString("Enter Section");
             vID = new ValidationID();
-            //service = new PanelService();  //hmmmmm
-
 
             while (!vID.CheckSectionIsNotNull(section))
             {
@@ -47,16 +37,8 @@ namespace SolarFarmAssessment.MenuItems
                section = ui.GetString("Enter Section");
             }
 
-            section = "Upper Hill";     //testing
-            //var Service = new IPanelService()
-            if (Service != null)
-            {
-                result = Service.FindPanelsBySection(section);  //here too
-            }
-            if (Service == null)
-            {
-                ui.Display("null");
-            }           
+            result = Service.FindPanelsBySection(section); 
+        
             if (result.Success)
             {
                 //or if it is csv, let's look into that

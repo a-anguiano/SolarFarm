@@ -44,8 +44,7 @@ namespace SolarFarmAssessment
                 {
                     if (mi.Selector == selection)
                     {
-                        //Service.FindPanelsBySection(section);
-                        running = mi.Execute(_ui, _vID);  //testing
+                        running = mi.Execute(_ui, _vID);
                         break;
                     }
                 }

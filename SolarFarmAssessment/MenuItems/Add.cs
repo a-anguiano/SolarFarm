@@ -21,8 +21,8 @@ namespace SolarFarmAssessment.MenuItems
             Description = "Add a Panel";
         }
         IPanelService Service = PanelServiceFactory.GetPanelService();
-       // public IPanelService Service { get; set; }      //hmmmm
-        public override bool Execute(ConsoleIO ui, ValidationID vID)        //consider injection   
+
+        public override bool Execute(ConsoleIO ui, ValidationID vID)   
         {
             Console.Clear();
             string section, isTracking, yearString;
@@ -104,8 +104,7 @@ namespace SolarFarmAssessment.MenuItems
 
             Result<Panel> result = new Result<Panel>();
 
-            //ui.Display(Service);
-            result = Service.Add(panel);  //HERE
+            result = Service.Add(panel);
 
             if (result.Success)
             {

@@ -114,11 +114,5 @@ namespace SolarFarm.BLL
                 return false;
             }
         }
-
-        //must not duplicate a panel
-        //public bool CheckIfDuplicate()          //FIX THIS!!!!!!!
-        //{
-        //    return true;
-        //}
     }
 }

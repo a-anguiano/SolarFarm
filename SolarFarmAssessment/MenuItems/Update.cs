@@ -16,7 +16,8 @@ namespace SolarFarmAssessment.MenuItems
             Selector = 3;
             Description = "Update a Panel";
         }
-        public IPanelService Service { get; set; }      //hmmmm
+        IPanelService Service = PanelServiceFactory.GetPanelService();
+
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
             Console.Clear();
@@ -76,7 +77,7 @@ namespace SolarFarmAssessment.MenuItems
 
             //watch for enter key
             //a lot of this may need to go in PanelService
-            sectionNew = ui.GetString($"Section ({panel.Section})");
+            sectionNew = ui.GetResponse($"Section ({panel.Section})");
             if (String.IsNullOrEmpty(sectionNew))
             {
                 panel.Section = section;        //continue?
@@ -86,7 +87,7 @@ namespace SolarFarmAssessment.MenuItems
                 panel.Section = sectionNew;
             }
 
-            rowStringNew = ui.GetString($"Row ({panel.Row})");       //read as string perhaps
+            rowStringNew = ui.GetResponse($"Row ({panel.Row})");       //read as string perhaps
             if (String.IsNullOrEmpty(rowStringNew))
             {
                 panel.Row = row;
@@ -97,7 +98,7 @@ namespace SolarFarmAssessment.MenuItems
                 panel.Row = rowNew;
             }
 
-            columnStringNew = ui.GetString($"Column ({panel.Column})");
+            columnStringNew = ui.GetResponse($"Column ({panel.Column})");
             if (String.IsNullOrEmpty(columnStringNew))
             {
                 panel.Column = column;
@@ -148,7 +149,7 @@ namespace SolarFarmAssessment.MenuItems
             }
 
             Result<Panel> result = new Result<Panel>();
-            result = Service.Update(panel);  //HERE
+            result = Service.Update(panel);
 
             //success or error
             ui.Display("\n");

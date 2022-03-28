@@ -15,7 +15,7 @@ namespace SolarFarmAssessment
             Menu menu = MenuFactory.GetMainMenu(ui);
 
             IPanelService service = PanelServiceFactory.GetPanelService();
-            menu.Service = service;   //Service = service;
+            menu.Service = service;
             menu.Run();
         }
     }

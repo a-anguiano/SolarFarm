@@ -16,7 +16,8 @@ namespace SolarFarmAssessment.MenuItems
             Selector = 4;
             Description = "Remove a Panel";
         }
-        public IPanelService Service { get; set; }      //hmmmm
+        IPanelService Service = PanelServiceFactory.GetPanelService();
+
         public override bool Execute(ConsoleIO ui, ValidationID vID)
         {
             Console.Clear();
