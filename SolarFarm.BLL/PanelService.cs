@@ -149,29 +149,37 @@ namespace SolarFarm.BLL
             Result<Panel> result = new Result<Panel>();
             result.Success = true;
 
-                for (int i = 0; i < panels.Count; i++)
-                {
-                    if (panels[i].Section == panel.Section && panels[i].Row == panel.Row && panels[i].Column == panel.Column)
-                    {
-                        panel.Material = panels[i].Material;
-                        panel.Year = panels[i].Year;
-                        panel.IsTracking = panels[i].IsTracking;
-                        //check all this
+            //    for (int i = 0; i < panels.Count; i++)
+            //    {
+            //        if (panels[i].Section == panel.Section && panels[i].Row == panel.Row && panels[i].Column == panel.Column)
+            //        {
+            //            panel.Material = panels[i].Material;
+            //            panel.Year = panels[i].Year;
+            //            panel.IsTracking = panels[i].IsTracking;
+            //            //check all this
 
-                        result.Success = true;
-                        result.Data = panel;
-                        break;
-                    }
-                }
+            //            result.Success = true;
+            //            result.Data = panel;
+            //            break;
+            //        }
+            //    }
             
-            if (result.Success == true)
-            {
+            //if (result.Success == true)
+            //{
                 result = _repo.Update(panel);
                 result.Message = $"Panel {panel.Section}-{panel.Row}-{panel.Column} updated.";    //HERE
-            }
+            //}
             
             return result;            
         }
+        //public Result<WeatherRecord> UpdateRecord(WeatherRecord record2Update)
+        //{
+        //    var error = ValidateRecord(record2Update);
+
+        //    return string.IsNullOrEmpty(error)
+        //      ? _recordRepository.Update(record2Update)
+        //      : new Result<WeatherRecord> { IsSuccess = false, Message = error };
+        //}
         public bool CheckForUpdate(string response)
         {
             if (String.IsNullOrEmpty(response))

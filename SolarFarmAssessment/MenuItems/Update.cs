@@ -69,9 +69,6 @@ namespace SolarFarmAssessment.MenuItems
 
             ui.Display($"\nEditing {panel.Section}-{panel.Row}-{panel.Column}");
             ui.Display("Press [Enter] to keep original value.\n");
-
-            //a lot of this may need to go in PanelService
-
             
             sectionNew = ui.GetResponse($"Section ({panel.Section})");
 
@@ -79,10 +76,6 @@ namespace SolarFarmAssessment.MenuItems
             {
                 panel.Section = sectionNew;       //continue?
             }
-            //else
-            //{
-            //    panel.Section = section;
-            //}
 
             rowStringNew = ui.GetResponse($"Row ({panel.Row})");  
             
@@ -91,15 +84,6 @@ namespace SolarFarmAssessment.MenuItems
                 rowNew = int.Parse(rowStringNew);   //tryparse
                 panel.Row = rowNew;
             }
-            //if (String.IsNullOrEmpty(rowStringNew))
-            //{
-            //    panel.Row = row;
-            //}
-            //else
-            //{
-            //    rowNew = int.Parse(rowStringNew);   //tryparse
-            //    panel.Row = rowNew;
-            //}
 
             columnStringNew = ui.GetResponse($"Column ({panel.Column})");
 
@@ -108,15 +92,6 @@ namespace SolarFarmAssessment.MenuItems
                 columnNew = int.Parse(columnStringNew);   //tryparse
                 panel.Row = columnNew;
             }
-            //if (String.IsNullOrEmpty(columnStringNew))
-            //{
-            //    panel.Column = column;
-            //}
-            //else
-            //{
-            //    columnNew = int.Parse(columnStringNew);   //tryparse
-            //    panel.Row = columnNew;
-            //}
 
             Panel oldPanel = Service.GetPanel(section, row, column);
 
@@ -155,15 +130,6 @@ namespace SolarFarmAssessment.MenuItems
             {
                 panel.Material = oldPanel.Material;
             }
-            //if (String.IsNullOrEmpty(materialNew))
-            //{
-            //    panel.Material = oldPanel.Material; 
-            //}
-            //else
-            //{
-            //    int materialIntNew = int.Parse(materialNew);
-            //    panel.Material = materialIntNew;
-            //}
 
             string oldYear = oldPanel.Year.ToString("yyyy");
 
@@ -179,16 +145,6 @@ namespace SolarFarmAssessment.MenuItems
             {
                 panel.Year = oldPanel.Year;
             }
-            //if (String.IsNullOrEmpty(yearStringNew))
-            //{
-            //    panel.Year = oldPanel.Year;
-            //}
-            //else
-            //{
-            //    string month = "1/1/";
-            //    yearNew = DateTime.Parse(month + yearStringNew);              //tryparse
-            //    panel.Year = yearNew;
-            //}
 
             string track = oldPanel.IsTracking;
             if (track == "y")
@@ -209,14 +165,6 @@ namespace SolarFarmAssessment.MenuItems
             {
                 panel.IsTracking = oldPanel.IsTracking;
             }
-            //if (String.IsNullOrEmpty(isTrackingNew))
-            //{
-            //    panel.IsTracking = oldPanel.IsTracking;
-            //}
-            //else
-            //{
-            //    panel.IsTracking = isTrackingNew;
-            //}
 
             Result<Panel> result = new Result<Panel>();
             result = Service.Update(panel);

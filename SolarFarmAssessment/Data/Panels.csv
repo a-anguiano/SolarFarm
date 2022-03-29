@@ -1,2 +1,4 @@
-Section,Row,Column,Material,Year,IsTracking
-Upper Hill,2,2,3,2002,y
+Section,Row,Column,Year,Material,IsTracking
+upper hill,1,1,1/1/2001 12:00:00 AM,1,y
+upper hill,2,2,1/1/2002 12:00:00 AM,2,n
+upper hill,3,3,1/1/2003 12:00:00 AM,3,y

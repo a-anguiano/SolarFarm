@@ -23,10 +23,7 @@ namespace SolarFarm.DAL
             _panels = new List<Panel>();
             Init();
         }
-        //public Result<List<Panel>> Index()  //may not need
-        //{
-        //    return new Result<List<Panel>> { Success = true, Data = _panels };
-        //}
+        
         public Result<List<Panel>> GetAll()
         {
             Result<List<Panel>> result = new Result<List<Panel>>();
@@ -46,17 +43,31 @@ namespace SolarFarm.DAL
         {
             var result = new Result<Panel>();
 
-            if (_panels.Where(panel => panel.Section == panel2Update.Section && 
-            panel.Row == panel2Update.Row && panel.Column == panel2Update.Column).Select(_ => panel2Update).Any())
-            {
+            //for (var i = 0; i < _panels.Count; i++)
+            //{
+            //    if (_panels[i].Section != panel2Update.Section && _panels[i].Row != panel2Update.Row && _panels[i].Column != panel2Update.Column)
+            //    {
+            //        continue;
+            //    }
+            //    _panels[i] = panel2Update;
+            //    SaveAllPanels2File();
+            //    result.Success = true;
+            //    result.Data = panel2Update;
+            //    return result;
+            //}
+
+            //if (_panels.Where(panel => panel.Section == panel2Update.Section &&
+            //panel.Row == panel2Update.Row && panel.Column == panel2Update.Column).Select(_ => panel2Update).Any())
+            //{
                 SaveAllPanels2File();
                 result.Success = true;
+                result.Data = panel2Update;
                 return result;
-            }
+            //}
 
-            result.Success = false;
-            result.Message = "Panel not found";
-            return result;
+            //result.Success = false;
+            //result.Message = "Panel not found";
+            //return result;
         }
         public Result<Panel> Remove(string section, int row, int col)
         {
@@ -85,6 +96,8 @@ namespace SolarFarm.DAL
             }
             using var sr = new StreamReader(_fileName);
             string? row;
+
+            sr.ReadLine();  //header line
             while ((row = sr.ReadLine()) != null)
             {
                 _panels.Add(Deserialize(row));
@@ -109,6 +122,7 @@ namespace SolarFarm.DAL
         private void SaveAllPanels2File()
         {
             using var sw = new StreamWriter(_fileName);
+            sw.WriteLine("Section,Row,Column,Year,Material,IsTracking");
             foreach (var panel in _panels)
             {
                 sw.WriteLine(
@@ -116,8 +130,6 @@ namespace SolarFarm.DAL
             }
         }
        
-  
-
         //    public Result<Panel> Update(Panel panel)    
         //    {
         //        Result<Panel> result = new Result<Panel>();
@@ -131,22 +143,6 @@ namespace SolarFarm.DAL
         //        }
         //        return result;
         //    }
-
-        
-        //    public Result<Panel> Remove(string section, int row, int column)
-        //    {
-        //        Result<Panel> result = new Result<Panel>();
-        //        for (int i = 0; i < _panels.Count; i++)
-        //        {
-        //            if (_panels[i].Section == section && _panels[i].Row == row && _panels[i].Column == column)  //hmmm
-        //            {
-        //                result.Data = _panels[i];
-        //                result.Success = true;
-        //                result.Message = "";
-        //                _panels.Remove(_panels[i]);
-        //            }
-        //        }
-        //        return result;
-        //    }
+       
     }
 }
