@@ -1,5 +1,4 @@
 ﻿using System;
-//using System.Gloabalization;  //?
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,73 +13,69 @@ namespace SolarFarmAssessment.MenuItems
     public class Add : MenuItem
     {
 
-        private readonly IPanelService Service; //hmmm
+        private readonly IPanelService Service; 
 
         public Add(IPanelService panelService)
         {
             Selector = 2;
             Description = "Add a Panel";
-            Service = panelService;                 //hmmm
+            Service = panelService;                
         }
-        //maybe move quite a bit of this into BLL
 
-        //public Add()    
-        //{
-            
-        //}
-        //IPanelService Service = PanelService();
-
-        public override bool Execute(ConsoleIO ui, ValidationID vID)   
+        public override bool Execute(ConsoleIO ui, PanelService svc, ValidationID vID)      
         {
             Console.Clear();
             string section, isTracking, yearString;
             int row, column;
             DateTime year;
-            Panel panel = new Panel();  //hmmm
+            Panel panel = new Panel();  
             vID = new ValidationID();
 
             ui.Display("Add a Panel");
             ui.Display("===========\n");
-            section = ui.GetString("Enter Section Name");        
-            while (!vID.CheckSectionIsNotNull(section))
+            section = ui.GetString("Enter Section Name");
+
+            Result<Panel> result = Service.CheckForSectionExistence(section);
+            while(!result.Success)
             {
-                ui.Warn("[Err] Must enter a name for section");
-                section = ui.GetString("Enter Section");
-            }
+                ui.Warn(result.Message);
+                section = ui.GetString("Enter Section Name");
+                result = Service.CheckForSectionExistence(section);
+            }            
 
             panel.Section = section;
 
-            row = ui.GetInt("Enter Row");
-            while (!vID.CheckRow(row))
+            row = ui.GetInt("Enter Row");            
+            while (!vID.CheckRowOrColumn(row).Success)
             {
-                ui.Warn("[Err] Row must be between 1 and 250");
+                ui.Warn(vID.CheckRowOrColumn(row).Message);
                 row = ui.GetInt("Enter Row");                    
-            }
-           
+            }           
             panel.Row = row;
 
             column = ui.GetInt("Enter Column");
-            while (!vID.CheckColumn(column))
+            while (!vID.CheckRowOrColumn(column).Success)
             {
-                ui.Warn("[Err] Column must be between 1 and 250");
+                ui.Warn(vID.CheckRowOrColumn(row).Message);
                 column = ui.GetInt("Enter Column");                    
-            }
-
-            if (Service.CheckForPanelExistence(section, row, column))   //it exists already
-            {
-                ui.Warn("[Err] This panel exists!\nCannot duplicate.");
-                ui.PromptToContinue();
-                return true;    //go to main menu
             }
             panel.Column = column;
 
-            ui.Display("Enter material type:");
-            int material = ui.GetInt("0 = MuSi, 1 = MoSi, 2 = AmSi, 3 = CdTe, 4 = CIGS"); //make another enum so not as long?
-            
-            
-            while (!vID.CheckMaterial(material))
+            Result<Panel> result3 = Service.CheckForPanelExistence(section, row, column);
+            while (result3.Success)
             {
-                ui.Warn("A single material of the five listed is required");
+                ui.Warn($"[Err] {result.Message} Cannot Duplicate!");
+                ui.PromptToContinue();
+                Console.Clear();
+                return true;
+            }            
+
+            ui.Display("Enter material type:");
+            int material = ui.GetInt("0 = MuSi, 1 = MoSi, 2 = AmSi, 3 = CdTe, 4 = CIGS");
+                       
+            while (!vID.CheckMaterial(material).Success)
+            {
+                ui.Warn(vID.CheckMaterial(material).Message);
                 material = ui.GetInt("Enter material type");                                   
             }
             panel.Material = material;
@@ -89,31 +84,28 @@ namespace SolarFarmAssessment.MenuItems
             string month = "1/1/";
             year = DateTime.Parse(month + yearString);
 
-            while (!vID.CheckYear(year))
+            while (!vID.CheckYear(year).Success)
             {
-                ui.Warn("Year installed must be in the past");
+                ui.Warn(vID.CheckYear(year).Message);
                 yearString = ui.GetString("Enter year installed");
                 year = DateTime.Parse(month + yearString);
-                //need to tryparse        //install year
             }
             panel.Year = year;
 
             isTracking = ui.GetString("Does it track? Enter [y/n]");
-            while (!vID.CheckIsTracking(isTracking))
+            while (!vID.CheckIsTracking(isTracking).Success)
             {
-                ui.Warn("Must enter 'y' or 'n'");
+                ui.Warn(vID.CheckIsTracking(isTracking).Message);
                 isTracking = ui.GetString("Does it track? Enter [y/n]");
             }
             panel.IsTracking = isTracking;
 
-            Result<Panel> result = new Result<Panel>();
 
-            result = Service.Add(panel);
-
-            if (result.Success)
+            Result<Panel>  resultFinal = Service.Add(panel);
+            if (resultFinal.Success)
             {
                 ui.Display("\n");                
-                ui.Display($"Panel {result.Data.Section}-{result.Data.Row}-{result.Data.Column} added.");
+                ui.Display(resultFinal.Message);
                 ui.PromptToContinue();
             }
             else

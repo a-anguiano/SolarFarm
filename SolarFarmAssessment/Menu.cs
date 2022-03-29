@@ -16,6 +16,7 @@ namespace SolarFarmAssessment
         public List<MenuItem> MenuItems { get; }
         private ConsoleIO _ui;
         private ValidationID _vID;      //consider this
+        private PanelService _svc;
         public Menu(ConsoleIO ui, PanelService service, string name)
         {
             MenuItems = new List<MenuItem>();
@@ -34,7 +35,6 @@ namespace SolarFarmAssessment
             _ui.Display("=====================\n");
 
             bool running = true;
-           //string section = "Upper Hill";  //testing
 
             while (running)
             {
@@ -44,7 +44,7 @@ namespace SolarFarmAssessment
                 {
                     if (mi.Selector == selection)
                     {
-                        running = mi.Execute(_ui, _vID);
+                        running = mi.Execute(_ui, _svc, _vID);
                         break;
                     }
                 }

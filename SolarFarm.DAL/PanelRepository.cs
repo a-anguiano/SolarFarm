@@ -23,9 +23,18 @@ namespace SolarFarm.DAL
             _panels = new List<Panel>();
             Init();
         }
-        public Result<List<Panel>> Index()
+        //public Result<List<Panel>> Index()  //may not need
+        //{
+        //    return new Result<List<Panel>> { Success = true, Data = _panels };
+        //}
+        public Result<List<Panel>> GetAll()
         {
-            return new Result<List<Panel>> { Success = true, Data = _panels };
+            Result<List<Panel>> result = new Result<List<Panel>>();
+
+            result.Success = true;
+            result.Message = "";
+            result.Data = _panels;
+            return result;
         }
         public Result<Panel> Add(Panel panel)
         {
@@ -37,7 +46,8 @@ namespace SolarFarm.DAL
         {
             var result = new Result<Panel>();
 
-            if (_panels.Where(panel => panel.Section == panel2Update.Section && panel.Row == panel2Update.Row && panel.Column == panel2Update.Column).Select(_ => panel2Update).Any())    //hmmm
+            if (_panels.Where(panel => panel.Section == panel2Update.Section && 
+            panel.Row == panel2Update.Row && panel.Column == panel2Update.Column).Select(_ => panel2Update).Any())
             {
                 SaveAllPanels2File();
                 result.Success = true;
@@ -52,7 +62,8 @@ namespace SolarFarm.DAL
         {
             var result = new Result<Panel>();
 
-            foreach (var record in _panels.Where(panel => panel.Section == section && panel.Row == row && panel.Column == col))
+            foreach (var record in _panels.Where(panel => panel.Section == section && 
+            panel.Row == row && panel.Column == col))
             {
                 _panels.Remove(record);
                 SaveAllPanels2File();
@@ -87,9 +98,9 @@ namespace SolarFarm.DAL
             panel.Section = columns[0];
             panel.Row = int.Parse(columns[1]);
             panel.Column = int.Parse(columns[2]);
-            string month = "1/1/";
+            //string month = "1/1/";
             string yearString = columns[3];
-            panel.Year = DateTime.Parse(month + yearString);
+            panel.Year = DateTime.Parse(yearString);    //month + 
             panel.Material = int.Parse(columns[4]);
             panel.IsTracking = columns[5];
 
@@ -104,15 +115,7 @@ namespace SolarFarm.DAL
                   $"{panel.Section},{panel.Row},{panel.Column},{panel.Year},{panel.Material},{panel.IsTracking}");
             }
         }
-        public Result<List<Panel>> GetAll()
-        {
-            Result<List<Panel>> result = new Result<List<Panel>>();
-
-            result.Success = true;
-            result.Message = "";
-            result.Data = _panels;
-            return result;
-        }
+       
   
 
         //    public Result<Panel> Update(Panel panel)    

@@ -10,11 +10,11 @@ namespace SolarFarm.BLL
     {
         public enum MaterialTypes
         {
-            MuSi,       //multicrystalline_silicon,       //0
+            MuSi,       //multicrystalline_silicon,       
             MoSi,       //monocrystalline_silicon, 
             AmSi,       //amorphous_silicon, 
             CdTe,       //cadmium_telluride,      
-            CIGS        //copper_indium_gallium_selenide      //format
+            CIGS        //copper_indium_gallium_selenide 
         }
 
         public bool CheckSectionIsNotNull(string section)
@@ -29,89 +29,95 @@ namespace SolarFarm.BLL
             }            
         }
 
-        public bool CheckRow(int row)
+        public Result<Panel> CheckRowOrColumn(int rowOrColumn)
         {
-            if(row > 250 || row < 1)
+            Result<Panel> result = new Result<Panel>();
+            if (rowOrColumn > 250 || rowOrColumn < 1)
             {
-                return false;
+                result.Message = "[Err] Row/Column must be between 1 and 250";
+                result.Success = false;
+                return result;
             }
             else
             {
-                return true;
+                result.Success = true;
+                return result;
             }
         }
 
-        public bool CheckColumn(int column)
+        public Result<Panel> CheckMaterial(int material)
         {
-            if(column > 250 || column < 1)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        public bool CheckMaterial(int material)
-        {           
+            Result<Panel> result = new Result<Panel>();
+            result.Success = true;
             if (material == (int)MaterialTypes.MuSi)
-            {
-                return true;
+            {                
+                return result;
             }
             if (material == (int)MaterialTypes.MoSi)
             {
-                return true;
+                return result;
             }
             if (material == (int)MaterialTypes.AmSi)
             {
-                return true;
+                return result;
             }
             if (material == (int)MaterialTypes.CdTe)
             {
-                return true;
+                return result;
             }
             if (material == (int)MaterialTypes.CIGS)
             {
-                return true;
+                return result;
             }
 
             else
             {
-                return false;
+                result.Success = false;
+                result.Message = "A single material of the five listed is required";
+                return result;
             }
         }
 
-        public bool CheckYear(DateTime year)
+        public Result<Panel> CheckYear(DateTime year)
         {
+            Result<Panel> result = new Result<Panel>();
             if (year > DateTime.Now)
             {
-                return false;
+                result.Success = false;
+                result.Message = "Year installed must be in the past.";
+                return result;
             }
             else
             {
-                return true;
+                result.Success = true;
+                return result;
             }
         }
 
-        public bool CheckIsTracking(string isTracking)
+        public Result<Panel> CheckIsTracking(string isTracking)
         {
+            Result<Panel> result = new Result<Panel>();
             if (!String.IsNullOrEmpty(isTracking))
             {
                 isTracking = isTracking.ToLower();
 
                 if (isTracking == "y" || isTracking == "n")
                 {
-                    return true;
+                    result.Success = true;
+                    return result;
                 }
                 else
                 {
-                    return false;
+                    result.Success = false;
+                    result.Message = "Must enter 'y' or 'n'";
+                    return result;
                 }
             }            
             else
             {
-                return false;
+                result.Success = false;
+                result.Message = "Must enter a string of 'y' or 'n'";
+                return result;
             }
         }
     }

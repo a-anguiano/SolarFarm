@@ -20,33 +20,35 @@ namespace SolarFarmAssessment.MenuItems
             Service = panelService;
         }
 
-        Result<List<Panel>> result = new Result<List<Panel>>(); //hmmm, may move in
+        Result<Panel> result = new Result<Panel>();
 
-        public override bool Execute(ConsoleIO ui, ValidationID vID)
+        public override bool Execute(ConsoleIO ui, PanelService svc, ValidationID vID)
         {
             Console.Clear();
             string section;
             ui.Display("Find Panels by Section");
             ui.Display("======================\n");
             section = ui.GetString("Enter Section");
-            vID = new ValidationID();
 
-            while (!vID.CheckSectionIsNotNull(section))
-            {
-               ui.Warn("[Err] Must enter a name for section");
-               section = ui.GetString("Enter Section");
-            }
 
-            result = Service.FindPanelsBySection(section); 
+            result = Service.CheckForSectionExistence(section);
+
+            while(!result.Success)
+            {                
+                ui.Warn(result.Message);
+                section = ui.GetString("Enter Section");
+                result = Service.CheckForSectionExistence(section);               
+            }            
+
+            Result<List<Panel>> result2 = Service.FindPanelsBySection(section); 
         
-            if (result.Success)
+            if (result2.Success)
             {
                 ui.Display("\n");
                 ui.Display($"Panels in the {section}");
                 ui.Display("Row Col Year Material Tracking");
-                //or if it is csv, let's look into that
 
-                foreach (Panel panel in result.Data)
+                foreach (Panel panel in result2.Data)
                 {
                     string row = panel.Row.ToString();
                     string col = panel.Column.ToString();
@@ -88,7 +90,7 @@ namespace SolarFarmAssessment.MenuItems
             }
             else
             {
-                ui.Display(result.Message);
+                ui.Display(result2.Message);
             }
             ui.Display("\n");
             ui.PromptToContinue();

@@ -11,25 +11,24 @@ namespace SolarFarmAssessment.MenuItems
 {
     class Remove : MenuItem
     {
-        private readonly IPanelService Service; //hmmm
+        private readonly IPanelService Service;
         public Remove(IPanelService panelService)
         {
             Selector = 4;
             Description = "Remove a Panel";
             Service = panelService;
         }
-        //IPanelService Service = PanelServiceFactory.GetPanelService();
 
-        public override bool Execute(ConsoleIO ui, ValidationID vID)
+        public override bool Execute(ConsoleIO ui, PanelService svc, ValidationID vID)
         {
             Console.Clear();
             ui.Display("Remove a Panel");
             ui.Display("==============\n");
 
-            string section;            //other ones?
+            string section;            
             int row, column;
 
-            Panel panel = new Panel();  //hmmm
+            //Panel panel = new Panel();  //hmmm
             vID = new ValidationID();
 
             section = ui.GetString("Enter Section");
@@ -38,40 +37,30 @@ namespace SolarFarmAssessment.MenuItems
                 ui.Warn("[Err] Must enter a name for section");
                 section = ui.GetString("Enter Section");
             }
-            while (!Service.CheckForSectionExistence(section))
+            while (!Service.CheckForSectionExistence(section).Success)
             {
                 ui.Warn("[Err] This section does not exist");
                 section = ui.GetString("Enter Section");
             }
-            panel.Section = section;    //uneccessary?
 
             row = ui.GetInt("Enter Row");
-            while (!vID.CheckRow(row))
+            while (!vID.CheckRowOrColumn(row).Success)
             {
-                ui.Warn("[Err] Row must be between 1 and 250");
+                ui.Warn(vID.CheckRowOrColumn(row).Message);
                 row = ui.GetInt("Enter Row");
             }
-            panel.Row = row;
 
             column = ui.GetInt("Enter Column");
-            while (!vID.CheckColumn(column))
+            while (!vID.CheckRowOrColumn(column).Success)
             {
-                ui.Warn("[Err] Column must be between 1 and 250");
+                ui.Warn(vID.CheckRowOrColumn(row).Message);
                 column = ui.GetInt("Enter Column");
             }
-            if (!Service.CheckForPanelExistence(section, row, column))  //it does not exist
-            {
-                ui.Warn("[Err] This panel does not exist!\nCannot remove.");
-                ui.PromptToContinue();
-                Console.Clear();
-                return true;    //go to main menu
-            }
 
-            panel.Column = column;
+            Result<Panel> result = Service.Remove(section, row, column);
 
-            Service.Remove(section, row, column);
-
-            ui.Display($"Panel {section}-{row}-{column} removed.");
+            ui.Display(result.Message);
+            ui.Display("\n");
             ui.PromptToContinue();
             Console.Clear();
             return true;
